@@ -1,2 +1,2 @@
-// index.ts
+// src/index.ts
 console.log("Hello via Bun!");
