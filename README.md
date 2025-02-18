@@ -20,7 +20,7 @@ https://github.com/panva/jose <-- repo for the JWT module
 ```bash
 bun add jose
 ```
-only the login will be accessible all other routes are protected
+only the login will be accessible all other routes are protected until the JWT is aquired
 
 
 
@@ -28,7 +28,7 @@ API sample data.
 Sample request: POST /api/leave-requests
 ```JSON
 {
-     "employee_id": 123, 
+    "employee_id": 123, 
     "start_date": "2025-02-01", 
     "end_date": "2025-02-05" 
 }
@@ -36,7 +36,7 @@ Sample request: POST /api/leave-requests
 Sample response:
 ```JSON
 {
-   "message": "Leave request has been submitted for review",
+  "message": "Leave request has been submitted for review",
   "data": {
     "id": 456,
     "employee_id": 123,
