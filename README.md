@@ -12,14 +12,15 @@ To run:
 bun run src/index.ts
 ```
 # API concepts and examples of requests and responses.
-the web framework that will be used to create the app is called Koa, this is a lightweight web handler that will create and handle the web server while i only need to create middleware
+the web framework that will be used to create the app is called Koa, this is a lightweight web handler that will create and handle the web server while i only need to create middleware the main reason for this rather than using a more feature rich framework such as express is this project is not complex in the slightest.
 ```bash
 bun add koa
 ```
-for data storage Sqlite will be used, why? cus its awesome yeeeeea it is light, fast and really good
+for data storage Sqlite will be used, why? cus its awesome it is light, fast and really good
 ```bash
 bun add sqlite3
 ```
+https://dextrop.medium.com/how-to-build-a-fast-and-lightweight-api-with-node-js-and-sqlite-676cbbec1b6a <-- article on sqlite and typescript
 
 Login is necessary to see API endpoints
 JSON web tokes will be used for authentication these will have the JWT as 
