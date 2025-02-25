@@ -1,0 +1,5 @@
+class DbInteraction {
+    constructor() {
+        
+    }
+}
