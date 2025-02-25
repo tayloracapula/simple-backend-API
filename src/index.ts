@@ -1,1 +1,3 @@
-const Koa = require('koa');
+import { Hono } from "hono";
+import { DatabaseManager } from "server/DbManagement";
+
