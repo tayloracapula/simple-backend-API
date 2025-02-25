@@ -1,5 +1,3 @@
-## assignment
-
 # To install dependencies:
 
 ```bash
@@ -11,6 +9,9 @@ To run:
 ```bash
 bun run src/index.ts
 ```
+
+this project requires a .env file to store it's port and some other secret variables. change the .env.example to a .env and input the port that you want.
+
 # API concepts and examples of requests and responses.
 I am going to be using the Hono framework it has many modern features such as async await and other cool stuff
 https://hono.dev/docs/api/hono
