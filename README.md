@@ -16,10 +16,8 @@ this project requires a .env file to store it's port and some other secret varia
 I am going to be using the Hono framework it has many modern features such as async await and other cool stuff
 https://hono.dev/docs/api/hono
 
-for data storage Sqlite will be used, why? cus its awesome it is light, fast and really good
-```bash
-bun add sqlite3
-```
+for data storage Sqlite will be used, why? cus its awesome it is light, fast and really good and its already built in to bun.
+
 https://dextrop.medium.com/how-to-build-a-fast-and-lightweight-api-with-node-js-and-sqlite-676cbbec1b6a <-- article on sqlite and typescript
 
 Login is necessary to see API endpoints

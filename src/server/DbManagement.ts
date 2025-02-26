@@ -1,43 +1,47 @@
-import sqlite3, { Database } from 'sqlite3';
-import fs from 'fs';
-import path from 'path';
+import { Database } from "bun:sqlite";
+import fs from "fs";
+import path from "path";
 
+interface DbInteraction {
+  addEntry(table: string): void;
+}
 
- export class DatabaseManager {
-    private dbPath:string;
-    db: Database | null = null;
-    constructor(APIdbFileName: string) {
-        this.dbPath = path.resolve(__dirname,APIdbFileName);
+export class DatabaseManager {
+  private dbPath: string;
+  db: Database | null = null;
+
+  constructor(APIdbFileName: string) {
+    this.dbPath = path.resolve(__dirname, APIdbFileName);
+  }
+
+  public openDb(): void {
+    this.checkIfDbExists();
+    this.db;
+  }
+
+  private checkIfDbExists(): void | Boolean {
+    try {
+      if (!fs.existsSync(this.dbPath)) {
+        console.log("Database doesn't exist. Initialising");
+        this.initialiseDb();
+        return true;
+      } else {
+        console.log("Database already exists");
+        return false;
+      }
+    } catch (error) {
+      console.log("Problems checking if Database exists:", error);
     }
+  }
 
-    public checkIfDbExists():void {
-        try {
-            if (!fs.existsSync(this.dbPath)) {
-                console.log("Database doesn't exist. Initialising");
-                this.initialiseDb()
-            } else {
-                console.log('Database already exists');
-            }
-        } catch (error) {
-            console.log('Problems checking if Database exists:',error);
-        }
+  private initialiseDb(): void {
+    try {
+      this.db = new Database(this.dbPath);
+      const dbCreationString: string = ""; /*add the DB creation here*/
+      const dbCreationQuery = this.db.query(dbCreationString);
+      dbCreationQuery.run();
+    } catch (error) {
+        
     }
-
-    private initialiseDb():void {
-        this.db = new sqlite3.Database(this.dbPath, (err) => {
-            if (err) {
-                console.error('Errors creating Base',err);
-            } else {
-                this.db?.run(``
-                    /* need to add the actual SQL here come up with a DB schema*/ 
-                    ,(err) => {
-                        if (err) {
-                            console.error('Error creating database tables:', err);
-                        } else {
-                            console.log('Database tables created successfully');
-                        }
-                    })
-            }
-        });
-    }
+  }
 }
