@@ -8,6 +8,7 @@ interface DbInteraction {
 
 export class DatabaseManager {
   private dbPath: string;
+  dbConnectionPresent : boolean | null = null;
   db: Database | null = null;
 
   constructor(APIdbFileName: string) {
@@ -16,18 +17,20 @@ export class DatabaseManager {
 
   public openDb(): void {
     this.checkIfDbExists();
-    this.db;
+    if (this.dbConnectionPresent == false) {
+      this.db = new Database(this.dbPath);
+    }
   }
 
-  private checkIfDbExists(): void | Boolean {
+  private checkIfDbExists(): void {
     try {
       if (!fs.existsSync(this.dbPath)) {
         console.log("Database doesn't exist. Initialising");
         this.initialiseDb();
-        return true;
+        this.dbConnectionPresent = true;
       } else {
         console.log("Database already exists");
-        return false;
+        this.dbConnectionPresent = false;
       }
     } catch (error) {
       console.log("Problems checking if Database exists:", error);
@@ -41,7 +44,7 @@ export class DatabaseManager {
       const dbCreationQuery = this.db.query(dbCreationString);
       dbCreationQuery.run();
     } catch (error) {
-        
+      console.log("Problems creating Database:", error);
     }
   }
 }
