@@ -12,7 +12,8 @@ export class DatabaseManager {
   db: Database | null = null;
 
   constructor(APIdbFileName: string) {
-    this.dbPath = path.resolve(__dirname, APIdbFileName);
+    this.dbPath = path.resolve(APIdbFileName);
+    this.openDb();
   }
 
   public openDb(): void {
@@ -40,9 +41,6 @@ export class DatabaseManager {
   private initialiseDb(): void {
     try {
       this.db = new Database(this.dbPath);
-      const dbCreationString: string = ""; /*add the DB creation here*/
-      const dbCreationQuery = this.db.query(dbCreationString);
-      dbCreationQuery.run();
     } catch (error) {
       console.log("Problems creating Database:", error);
     }

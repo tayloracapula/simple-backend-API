@@ -1,3 +1,10 @@
+# Prerequisites
+This project is built on the bun javascript/typecript runtime. 
+
+it needs you to have bun installed 
+https://bun.sh/ <- follow the install procedure here.
+
+
 # To install dependencies:
 
 ```bash
@@ -17,6 +24,8 @@ I am going to be using the Hono framework it has many modern features such as as
 https://hono.dev/docs/api/hono
 
 for data storage Sqlite will be used, why? cus its awesome it is light, fast and really good and its already built in to bun.
+
+the database design can be viewed here https://bit.ly/3XzLByj
 
 https://dextrop.medium.com/how-to-build-a-fast-and-lightweight-api-with-node-js-and-sqlite-676cbbec1b6a <-- article on sqlite and typescript
 
