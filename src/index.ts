@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { DatabaseManager } from "db/DbManagement";
 import {Server} from 'server/core';
 import dotenv from 'dotenv';
-
+import "reflect-metadata";
 
 
 dotenv.config();
@@ -15,6 +15,6 @@ if (isNaN(port) || port < 1 || port > 65535) {
     port = 8080;
   }
 
-const server = new Server(port, "./api.sqlite");
+const server = new Server(port, "./api.db");
 
 export default server.app;
