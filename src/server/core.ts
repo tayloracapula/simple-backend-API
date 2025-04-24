@@ -1,4 +1,5 @@
 import { prettyJSON } from "hono/pretty-json";
+import { createRoutes } from "./routes";
 import { Hono,} from "hono";
 import { DatabaseManager } from "../db/DbManagement";
 
@@ -10,12 +11,9 @@ export class Server extends DatabaseManager {
         super(APIdbFileName);
         this.app = new Hono();
         this.port = port;
-        this.initalisation();
     }
 
-    private initalisation():void {
-        this.app
-    }
+
 
     private testJSON(JSONString:string):boolean {
         try {
