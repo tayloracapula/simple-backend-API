@@ -1,4 +1,6 @@
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
+#production sqlite database
+./db
 
 # Logs
 

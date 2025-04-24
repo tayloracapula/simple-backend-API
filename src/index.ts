@@ -15,6 +15,6 @@ if (isNaN(port) || port < 1 || port > 65535) {
     port = 8080;
   }
 
-const server = new Server(port, "./api.db");
+const server = new Server(port, "./db/api.sqlite");
 
 export default server.app;

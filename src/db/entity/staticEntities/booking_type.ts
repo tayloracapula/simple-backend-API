@@ -7,5 +7,5 @@ export class booking_type {
     id!: number;
 
     @Column("text")
-    leave_type!: string;
+    booking_type!: string;
 }

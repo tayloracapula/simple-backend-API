@@ -1,22 +1,24 @@
 {
-  "name": "assignment",
-  "module": "src/index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "^1.2.5"
-  },
-  "peerDependencies": {
-    "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "hono": "^4.7.5",
-    "sqlite3": "^5.1.7",
-    "typeorm": "^0.3.22",
-    "typeorm-naming-strategies": "^4.1.0"
-  },
-  "scripts": {
-    "start": "bun src/index.ts",
-    "typeorm": "typeorm-ts-node-commonjs"
-  }
+    "name": "assignment",
+    "module": "src/index.ts",
+    "type": "module",
+    "devDependencies": {
+        "@types/bun": "^1.2.5",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.2"
+    },
+    "peerDependencies": {
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "hono": "^4.7.5",
+        "sqlite3": "^5.1.7",
+        "typeorm": "^0.3.22",
+        "typeorm-naming-strategies": "^4.1.0"
+    },
+    "scripts": {
+        "start": "bun src/index.ts",
+        "typeorm": "typeorm-ts-node-commonjs"
+    }
 }

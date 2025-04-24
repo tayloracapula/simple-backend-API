@@ -1,38 +1,38 @@
 import { Database } from "bun:sqlite";
 import fs from "fs";
 import path from "path";
-//import { user_management } from "./entity/entities/user_management";
-//import { user } from "./entity/entities/user.ts";
-//import { department } from "./entity/staticEntities/department";
-//import { role } from "./entity/staticEntities/role";
 import { createAppDataSource } from "data-source";
 import type { DataSource } from "typeorm";
+import { DatabaseInitialiser } from "./initialisation/complete_initialisation";
 
-export class DatabaseManager {
+export abstract class DatabaseManager extends DatabaseInitialiser {
     private dbPath: string;
     dbConnectionPresent: boolean | null = null;
-    db: Database | null = null;
+    db!: Database;
     dbFileName: string;
-    dataSource:DataSource | null = null;
+    dataSource!:DataSource;
     constructor(DatabaseFilePath: string) {
+        super();
         this.dbPath = path.resolve(DatabaseFilePath);
-        this.dbFileName = DatabaseFilePath.slice(2);
+        this.dbFileName = DatabaseFilePath;
+        this.dataSource = createAppDataSource(this.dbFileName);
         this.openDb();
     }
 
-    public openDb(): void {
+    public async openDb(): Promise<void> {
         this.checkIfDbExists();
         if (this.dbConnectionPresent == false) {
             this.db = new Database(this.dbPath);
+            await this.dataSource.initialize();
         }
-        this.dataSource = createAppDataSource(this.dbFileName);
-    
     }
 
-    private checkIfDbExists(): void {
+
+    private async checkIfDbExists(): Promise<void> {
         try {
             if (!fs.existsSync(this.dbPath)) {
                 console.log("Database doesn't exist. Initialising");
+                await this.dataSource.initialize();
                 this.initialiseDb();
                 this.dbConnectionPresent = true;
             } else {
@@ -44,9 +44,9 @@ export class DatabaseManager {
         }
     }
 
-    private initialiseDb(): void {
+    private async initialiseDb(): Promise<void> {
         try {
-            this.db = new Database(this.dbPath);
+            await this.initialiseStaticDatabaseTables(this.dataSource);
         } catch (error) {
             console.log("Problems creating Database:", error);
         }
