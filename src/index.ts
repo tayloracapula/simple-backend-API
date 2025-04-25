@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import "reflect-metadata";
 import { UserRoutes } from "server/routes/userRoutes";
 import { AdminRoutes } from "server/routes/adminRoutes";
+import { ManagerRoutes } from "server/routes/managerRoutes";
 
 const defaultPort = 8080;
 const defaultDbName = "./db/api.sqlite";
@@ -28,7 +29,11 @@ if (isNaN(port) || port < 1 || port > 65535) {
     port = defaultPort;
 }
 
-const server = new Server(port, dbName).addRoute(new AdminRoutes());
+const server = new Server(port, dbName)
+    .addRoute(new AdminRoutes())
+    .addRoute(new ManagerRoutes())
+    .addRoute(new UserRoutes());
+
 
 await server.initialiseRoutes();
 export default server.app;

@@ -7,7 +7,6 @@ console.log(`
    |  ╭───╮     |   Bun says BYE BYE DataBase
    |  ╰───╯     |   I'LL MISS YOU!
    ╰────────────╯
-
 `);
 
 const dbDir = path.join(process.cwd(), 'db');
