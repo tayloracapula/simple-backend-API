@@ -18,6 +18,7 @@
         "typeorm-naming-strategies": "^4.1.0"
     },
     "scripts": {
-        "start": "bun src/index.ts"
+        "start": "bun src/index.ts",
+        "resetdb": "bun scripts/reset-db.ts"
     }
 }
