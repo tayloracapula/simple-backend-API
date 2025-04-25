@@ -16,11 +16,10 @@ export abstract class DatabaseManager extends DatabaseInitialiser {
         this.dbPath = path.resolve(DatabaseFilePath);
         this.dbFileName = DatabaseFilePath;
         this.dataSource = createAppDataSource(this.dbFileName);
-        this.openDb();
     }
 
     public async openDb(): Promise<void> {
-        this.checkIfDbExists();
+        await this.checkIfDbExists();
         if (this.dbConnectionPresent == false) {
             this.db = new Database(this.dbPath);
             await this.dataSource.initialize();
@@ -33,7 +32,7 @@ export abstract class DatabaseManager extends DatabaseInitialiser {
             if (!fs.existsSync(this.dbPath)) {
                 console.log("Database doesn't exist. Initialising");
                 await this.dataSource.initialize();
-                this.initialiseDb();
+                await this.initialiseDb();
                 this.dbConnectionPresent = true;
             } else {
                 console.log("Database already exists");

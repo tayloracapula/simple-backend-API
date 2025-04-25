@@ -1,8 +1,10 @@
 import { Hono } from "hono";
-import { DatabaseManager } from "db/DbManagement";
+import { DatabaseManager } from "./db/DBManagement";
 import { Server } from "server/core";
 import dotenv from "dotenv";
 import "reflect-metadata";
+import { UserRoutes } from "server/routes/userRoutes";
+import { AdminRoutes } from "server/routes/adminRoutes";
 
 const defaultPort = 8080;
 const defaultDbName = "./db/api.sqlite";
@@ -26,6 +28,7 @@ if (isNaN(port) || port < 1 || port > 65535) {
     port = defaultPort;
 }
 
-const server = new Server(port, dbName);
+const server = new Server(port, dbName).addRoute(new AdminRoutes());
 
+await server.initialiseRoutes();
 export default server.app;
