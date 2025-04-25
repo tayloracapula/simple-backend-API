@@ -1,6 +1,6 @@
 import { prettyJSON } from "hono/pretty-json";
 import { Hono,} from "hono";
-import { DatabaseManager } from "../db/DBManagement";
+import { DatabaseManager } from "../db-src/DBManagement";
 import type { RouteProvider } from "./routes/routeProvider";
 
 export class Server extends DatabaseManager {

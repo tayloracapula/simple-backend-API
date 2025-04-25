@@ -1,4 +1,4 @@
-import { acceptance_status } from "db/entity/staticEntities/acceptance_status";
+import { acceptance_status } from "db-src/entity/staticEntities/acceptance_status";
 import type { DataSource } from "typeorm";
 
 export async function initialise_acceptence_status(dataSource:DataSource): Promise<void> {

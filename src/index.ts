@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { DatabaseManager } from "./db/DBManagement";
+import { DatabaseManager } from "./db-src/DBManagement";
 import { Server } from "server/core";
 import dotenv from "dotenv";
 import "reflect-metadata";

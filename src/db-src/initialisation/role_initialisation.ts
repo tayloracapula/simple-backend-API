@@ -1,4 +1,4 @@
-import { role } from "db/entity/staticEntities/role";
+import { role } from "db-src/entity/staticEntities/role";
 import type { DataSource } from "typeorm";
 
 

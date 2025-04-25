@@ -1,4 +1,4 @@
-import { booking_type } from "db/entity/staticEntities/booking_type";
+import { booking_type } from "db-src/entity/staticEntities/booking_type";
 import type { DataSource } from "typeorm";
 
 

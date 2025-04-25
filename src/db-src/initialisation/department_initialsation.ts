@@ -1,4 +1,4 @@
-import { department } from "db/entity/staticEntities/department";
+import { department } from "db-src/entity/staticEntities/department";
 import type { DataSource } from "typeorm";
 
 
