@@ -1,4 +1,5 @@
 import { role } from "db-src/entity/staticEntities/role";
+import { Logger } from "server/Logger";
 import type { DataSource } from "typeorm";
 
 
@@ -17,6 +18,5 @@ export async function initialise_roles(dataSource:DataSource): Promise<void> {
     ];
     await rolesTableRepository.save(staticRoles);
     
-    console.log("Roles data initialised successfully")
-
+    Logger.info(`Roles data initialised successfully`)
 } 

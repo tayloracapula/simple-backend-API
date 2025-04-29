@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import type { RouteProvider } from "./routeProvider";
 import type { DataSource, Repository } from "typeorm";
 import { role } from "db-src/entity/staticEntities/role";
 import { BaseRoute } from "./baseRoute";

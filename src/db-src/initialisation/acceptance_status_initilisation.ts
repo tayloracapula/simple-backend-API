@@ -1,4 +1,5 @@
 import { acceptance_status } from "db-src/entity/staticEntities/acceptance_status";
+import { Logger } from "server/Logger";
 import type { DataSource } from "typeorm";
 
 export async function initialise_acceptence_status(dataSource:DataSource): Promise<void> {
@@ -17,6 +18,5 @@ export async function initialise_acceptence_status(dataSource:DataSource): Promi
     ];
     await statusTableRepository.save(staticAcceptanceStatus);
     
-    console.log("Acceptance status data initialised successfully")
-
+    Logger.info(`Acceptance status data initialised successfully`)
 } 

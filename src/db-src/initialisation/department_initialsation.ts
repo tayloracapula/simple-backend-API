@@ -1,4 +1,5 @@
 import { department } from "db-src/entity/staticEntities/department";
+import { Logger } from "server/Logger";
 import type { DataSource } from "typeorm";
 
 
@@ -17,6 +18,5 @@ export async function initialise_department(dataSource:DataSource): Promise<void
     ];
     await departmentTableRepository.save(staticDepartment);
     
-    console.log("Department data initialised successfully")
-
+    Logger.info(`Department data initialised successfully`);
 } 

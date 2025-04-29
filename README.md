@@ -14,7 +14,12 @@ bun install
 To run:
 
 ```bash
-bun run src/index.ts
+bun run start
+```
+(if you want debug logging)
+
+```bash
+bun run debug
 ```
 
 this project requires a .env file to store it's port and some other secret variables. change the .env.example to a .env and input the port that you want.

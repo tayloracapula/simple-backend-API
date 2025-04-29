@@ -1,4 +1,5 @@
 import { booking_type } from "db-src/entity/staticEntities/booking_type";
+import { Logger } from "server/Logger";
 import type { DataSource } from "typeorm";
 
 
@@ -18,6 +19,5 @@ export async function initialise_booking_type(dataSource:DataSource): Promise<vo
     ];
     await typeTableRepository.save(staticBookingStatus);
     
-    console.log("Booking Type data initialised successfully")
-
+    Logger.info(`Booking Type data initialised successfully`);
 } 

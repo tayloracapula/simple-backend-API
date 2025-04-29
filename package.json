@@ -19,6 +19,8 @@
     },
     "scripts": {
         "start": "bun src/index.ts",
-        "resetdb": "bun scripts/reset-db.ts"
+        "resetdb": "bun scripts/reset-db.ts",
+        "debug": "DEBUG=true  bun src/index.ts",
+        "debugwatch": "set DEBUG =true && bun --watch src/index.ts" 
     }
 }

@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { DatabaseManager } from "./db-src/DBManagement";
-import { Server } from "server/core";
+import { ServerCore } from "server/ServerCore";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import { UserRoutes } from "server/routes/userRoutes";
@@ -29,7 +29,8 @@ if (isNaN(port) || port < 1 || port > 65535) {
     port = defaultPort;
 }
 
-const server = new Server(port, dbName)
+const server = new ServerCore(port, dbName);
+server.getRouteManager()
     .addRoute(new AdminRoutes())
     .addRoute(new ManagerRoutes())
     .addRoute(new UserRoutes());

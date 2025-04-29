@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import type { RouteProvider } from "./routeProvider";
 import type { DataSource } from "typeorm";
 import { BaseRoute } from "./baseRoute";
 
