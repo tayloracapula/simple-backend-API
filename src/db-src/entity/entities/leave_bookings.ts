@@ -6,7 +6,7 @@ import { booking_type } from "../staticEntities/booking_type.ts";
 
 
 @Entity()
-export class leave_bookings {
+export class leave_booking {
     @PrimaryGeneratedColumn()
     booking_id!: number;
 

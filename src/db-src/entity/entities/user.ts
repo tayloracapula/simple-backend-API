@@ -7,7 +7,7 @@ import {
     type Relation,
 } from "typeorm";
 import { user_management } from "./user_management";
-import { leave_bookings } from "./leave_bookings";
+import { leave_booking } from "./leave_bookings";
 import { role } from "../staticEntities/role";
 import { department } from "../staticEntities/department";
 
@@ -46,6 +46,6 @@ export class user {
     @OneToMany(() => user_management,(user_management) => user_management.manager)
     manager_management!: Relation<user_management>[];
 
-    @OneToMany(() => leave_bookings, (leave_bookings) => leave_bookings.user)
-    leave_bookings!: Relation<leave_bookings>[];
+    @OneToMany(() => leave_booking, (leave_bookings) => leave_bookings.user)
+    leave_bookings!: Relation<leave_booking>[];
 }

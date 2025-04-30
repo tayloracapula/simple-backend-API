@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 
-import { leave_bookings } from "db-src/entity/entities/leave_bookings";
+import { leave_booking } from "db-src/entity/entities/leave_bookings";
 import { user_management } from "db-src/entity/entities/user_management";
 import { user } from "db-src/entity/entities/user";
 import { department } from "db-src/entity/staticEntities/department";
@@ -17,7 +17,7 @@ export const createAppDataSource = (dbName: string) => new DataSource({
     logging: false,
     entities: [
         user,
-        leave_bookings,
+        leave_booking,
         user_management,
         acceptance_status,
         booking_type,

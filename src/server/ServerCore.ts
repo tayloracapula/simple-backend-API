@@ -4,6 +4,8 @@ import { DatabaseManager } from "../db-src/DBManagement";
 import type { RouteProvider } from "./routes/routeProvider";
 import { RouteManager } from "./RouteManager";
 import { Logger } from "./Logger";
+import { timing } from "hono/timing";
+import { logger } from "hono/logger";
 
 export class ServerCore extends DatabaseManager {
     app:Hono;
@@ -14,14 +16,18 @@ export class ServerCore extends DatabaseManager {
     constructor(port:number,APIdbFileName: string) {
         super(APIdbFileName);
         this.app = new Hono();
-        this.app.use('*',prettyJSON())
+        //Hono middleware
+        this.app.use(prettyJSON());
+        this.app.use(timing());
+        this.app.use(logger())
+
         this.port = port;
         this.routeManager = new RouteManager();
     }
 
     getRouteManager(): RouteManager {
         return this.routeManager;
-      }
+    }
 
     async initialiseRoutes(): Promise<ServerCore>{
         await this.openDb()
