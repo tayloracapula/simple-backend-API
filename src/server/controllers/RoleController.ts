@@ -1,4 +1,4 @@
-import { FetchAvailableRoles } from "../handlers/role/RolesUseCaseIndex";
+import { FetchAvailableRoles, RegisterNewRole } from "../handlers/role/RolesUseCaseIndex";
 import type { DataSource } from "typeorm";
 
 export class RoleController {
@@ -14,7 +14,8 @@ export class RoleController {
     }
 
     async addNewRole(newRoleName:string){
-        
+        const roleInserter = new RegisterNewRole(this.dataSource);
+        return await roleInserter.execute(newRoleName);
     }
 
 }

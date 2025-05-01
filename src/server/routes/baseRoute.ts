@@ -1,6 +1,7 @@
 import type { Hono } from "hono";
 import type { DataSource } from "typeorm";
 import type { RouteProvider } from "./routeProvider";
+import { StatusCode } from "server/StatusCodes";
 
 export abstract class BaseRoute implements RouteProvider {
     abstract registerRoutes(app: Hono, dataSource: DataSource): void;
@@ -12,7 +13,7 @@ export abstract class BaseRoute implements RouteProvider {
                 success: false,
                 message:"not found",
                 path: c.req.path,
-            },404)
+            },StatusCode.NOT_FOUND)
         });
     }
 }

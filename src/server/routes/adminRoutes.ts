@@ -5,6 +5,7 @@ import { BaseRoute } from "./baseRoute";
 import { Logger } from "server/Logger";
 import { RoleController } from "server/controllers/RoleController";
 import type { UserController } from "server/controllers/UserController";
+import { StatusCode } from "server/StatusCodes";
 
 export class AdminRoutes extends BaseRoute {
 
@@ -21,7 +22,7 @@ export class AdminRoutes extends BaseRoute {
                 return c.json(result);
             } catch (error) {
                 Logger.error("Admin Route retrieve roles error", error)
-                return c.text("Failed to retrieve roles", 500);
+                return c.text("Failed to retrieve roles", StatusCode.INTERNAL_ERROR);
             }
         });
 
@@ -33,17 +34,17 @@ export class AdminRoutes extends BaseRoute {
                     return c.json({
                         success: false,
                         message: "Role name is required"
-                    }, 400);
+                    }, StatusCode.BAD_REQUEST);
                 }
                 const result = await roleController.addNewRole(postData.name);
                 
                 return c.json({
                     success: true,
                     message: "Role created sucessfully"
-                },201)
+                },StatusCode.CREATED)
             } catch (error) {
                 Logger.error("Admin Route add role error", error)
-                return c.text("Failed to add role", 500);
+                return c.text("Failed to add role", StatusCode.INTERNAL_ERROR);
             }
         })
 
