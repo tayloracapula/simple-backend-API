@@ -6,6 +6,7 @@ import { RouteManager } from "./RouteManager";
 import { Logger } from "./Logger";
 import { timing } from "hono/timing";
 import { logger } from "hono/logger";
+import { JSONValidate } from "./ServerMiddleware";
 
 export class ServerCore extends DatabaseManager {
     app:Hono;
@@ -20,6 +21,7 @@ export class ServerCore extends DatabaseManager {
         this.app.use(prettyJSON());
         this.app.use(timing());
         this.app.use(logger())
+        this.app.use(JSONValidate)
 
         this.port = port;
         this.routeManager = new RouteManager();
@@ -36,16 +38,6 @@ export class ServerCore extends DatabaseManager {
         return this;
     }
 
-    private testJSON(JSONString:string):boolean {
-        try {
-            const parsed = JSON.parse(JSONString);
-            if (parsed && typeof parsed === "object") {
-                return true
-            }
-        } catch (error) {
-            return false;
-        }
-        return false;
-    }
-
 }
+
+

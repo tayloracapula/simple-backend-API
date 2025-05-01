@@ -6,6 +6,7 @@ import { RoleController } from "server/controllers/RoleController";
 import { UserController } from "server/controllers/UserController";
 import { StatusCode } from "server/StatusCodes";
 import { UserRelationshipLevel } from "server/handlers/user/UserRelationshipLevel";
+import type { UserSearchCriteria } from "server/handlers/user/FetchUserByCriteria";
 
 export class AdminRoutes extends BaseRoute {
     getBasePath(): string {
@@ -37,7 +38,7 @@ export class AdminRoutes extends BaseRoute {
             } catch (error) {
                 Logger.error("Admin Route retrieve users error", error)
                 return c.text(
-                    "Failed to retrieve roles",
+                    "Failed to retrieve users",
                     StatusCode.INTERNAL_ERROR
                 )
                 
@@ -52,7 +53,7 @@ export class AdminRoutes extends BaseRoute {
             } catch (error) {
                 Logger.error("Admin Route retrieve users error", error)
                 return c.text(
-                    "Failed to retrieve roles",
+                    "Failed to retrieve users",
                     StatusCode.INTERNAL_ERROR
                 )
                 
@@ -67,7 +68,7 @@ export class AdminRoutes extends BaseRoute {
             } catch (error) {
                 Logger.error("Admin Route retrieve users error", error)
                 return c.text(
-                    "Failed to retrieve roles",
+                    "Failed to retrieve users",
                     StatusCode.INTERNAL_ERROR
                 )
                 
@@ -82,12 +83,36 @@ export class AdminRoutes extends BaseRoute {
             } catch (error) {
                 Logger.error("Admin Route retrieve users error", error)
                 return c.text(
-                    "Failed to retrieve roles",
+                    "Failed to retrieve users",
                     StatusCode.INTERNAL_ERROR
                 )
                 
             }
         });
+
+        adminGroup.get("/search-users", async (c) => {
+            try {
+                const searchCriteria:UserSearchCriteria ={
+                    firstName: c.req.query('first-name'),
+                    lastName: c.req.query('last-name'),
+                    email: c.req.query('email'),
+                    roleName: c.req.query('role-name'),
+                    departmentName: c.req.query('department-name'),
+                }
+                
+                const level = (c.req.query('level') as UserRelationshipLevel || UserRelationshipLevel.STANDARD);
+                const result = userController.getUserByCondition(searchCriteria,level);
+
+                return c.json(result);
+
+            } catch (error) {
+                Logger.error("Admin Route search users error", error)
+                return c.text(
+                    "Failed to search users",
+                    StatusCode.INTERNAL_ERROR
+                )
+            }
+        })
 
         adminGroup.post("/new-role", async (c) => {
             try {
@@ -118,19 +143,32 @@ export class AdminRoutes extends BaseRoute {
         });
         adminGroup.delete("/delete-role", async (c) => {
             try {
-                const deleteData = await c.req.json();
+                const roleIdParam =  c.req.param('id');
 
-                if (!deleteData.id) {
+                if (!roleIdParam) {
                     return c.json(
                         {
                             success: false,
-                            message: "Role name is required",
+                            message: "Role ID is required",
                         },
                         StatusCode.BAD_REQUEST
                     );
                 }
+                const roleId = parseInt(roleIdParam,10);
 
-                const result = await roleController.removeRole(deleteData.id);
+                if (isNaN(roleId)) {
+                    return c.json(
+                        {
+                            success: false,
+                            message: "Role ID must be a number",
+                        },
+                        StatusCode.BAD_REQUEST
+                    );                    
+                }
+
+                const result = await roleController.removeRole(roleId);
+
+                if (!result.success) return c.json(result, StatusCode.NOT_FOUND);
 
                 return c.json({
                     success: true,
