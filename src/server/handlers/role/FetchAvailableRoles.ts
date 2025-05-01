@@ -13,8 +13,8 @@ export class FetchAvailableRoles {
 
     async execute() {
         try {
-            Logger.debug("Getting all roles");
             const roles = await this.repository.find();
+            Logger.debug("Found roles:",roles);
 
             return {
                 success: true,

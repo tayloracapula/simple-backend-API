@@ -1,4 +1,4 @@
-import { FetchAvailableRoles, RegisterNewRole } from "../handlers/role/RolesUseCaseIndex";
+import { FetchAvailableRoles, RegisterNewRole, RemoveRole } from "../handlers/role/RolesUseCaseIndex";
 import type { DataSource } from "typeorm";
 
 export class RoleController {
@@ -16,6 +16,11 @@ export class RoleController {
     async addNewRole(newRoleName:string){
         const roleInserter = new RegisterNewRole(this.dataSource);
         return await roleInserter.execute(newRoleName);
+    }
+
+    async removeRole(roleId:number){
+        const roleRemover = new RemoveRole(this.dataSource);
+        return await roleRemover.execute(roleId);
     }
 
 }
