@@ -1,8 +1,7 @@
 import { prettyJSON } from "hono/pretty-json";
 import { Hono,} from "hono";
 import { DatabaseManager } from "../db-src/DBManagement";
-import type { RouteProvider } from "./routes/routeProvider";
-import { RouteManager } from "./RouteManager";
+import { RouteManager, type IRouteManager } from "./RouteManager";
 import { Logger } from "./Logger";
 import { timing } from "hono/timing";
 import { logger } from "hono/logger";
@@ -11,8 +10,7 @@ import { JSONValidate } from "./ServerMiddleware";
 export class ServerCore extends DatabaseManager {
     app:Hono;
     private readonly port:number;
-    private routes: RouteProvider[] = [];
-    private routeManager: RouteManager;
+    private routeManager: IRouteManager;
 
     constructor(port:number,APIdbFileName: string) {
         super(APIdbFileName);
@@ -27,7 +25,7 @@ export class ServerCore extends DatabaseManager {
         this.routeManager = new RouteManager();
     }
 
-    getRouteManager(): RouteManager {
+    getRouteManager(): IRouteManager {
         return this.routeManager;
     }
 

@@ -3,8 +3,15 @@ import type { RouteProvider } from "./routes/routeProvider";
 import type { DataSource } from "typeorm";
 import { Logger } from "./Logger";
 
-export class RouteManager {
-    private routes: RouteProvider[] = [];
+
+export interface IRouteManager {
+    routes:RouteProvider[]
+    addRoute(route:RouteProvider):IRouteManager;
+    registerAllRoutes(app:Hono, dataSource: DataSource):void;
+}
+
+export class RouteManager implements IRouteManager {
+    routes: RouteProvider[] = [];
 
     addRoute(route: RouteProvider): RouteManager {
         this.routes.push(route);

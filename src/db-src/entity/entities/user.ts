@@ -25,11 +25,9 @@ export class user {
     @Column("text", { unique: true })
     email!: string;
 
-    @Column("blob")
-    password!: Buffer;
+    @Column("text")
+    password!: string;
 
-    @Column("blob")
-    salt!: Buffer;
 
     @ManyToOne(() => role, { nullable: false, onDelete: "CASCADE" })
     role!: role;

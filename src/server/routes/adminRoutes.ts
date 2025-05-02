@@ -141,6 +141,13 @@ export class AdminRoutes extends BaseRoute {
                 return c.text("Failed to add role", StatusCode.INTERNAL_ERROR);
             }
         });
+
+
+        adminGroup.post("/new-user",async (c) => {
+            
+        })
+
+
         adminGroup.delete("/delete-role", async (c) => {
             try {
                 const roleIdParam =  c.req.param('id');

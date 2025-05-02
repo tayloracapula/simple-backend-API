@@ -11,6 +11,7 @@ import {
     type UserRelationshipLevel,
 } from "./UserRelationshipLevel";
 import { Logger } from "server/Logger";
+import type { UseCase } from "../UseCase";
 
 export interface UserSearchCriteria {
     firstName?: string;
@@ -20,7 +21,7 @@ export interface UserSearchCriteria {
     departmentName?: string;
 }
 
-export class FetchUserByCriteria {
+export class FetchUserByCriteria implements UseCase {
     private repository: Repository<user>;
     constructor(dataSource: DataSource) {
         this.repository = dataSource.getRepository(user);

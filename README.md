@@ -1,7 +1,7 @@
 # Prerequisites
 This project is built on the bun javascript/typecript runtime. 
 
-it needs you to have bun installed 
+it needs you to have bun installed as it uses some of Bun's native API's to improve performances
 https://bun.sh/ <- follow the install procedure here.
 
 
@@ -46,21 +46,22 @@ only the login will be accessible all other routes are protected until the JWT i
 
 
 API sample data.
-Sample request: POST /api/leave-requests
+Sample request: POST /api/user/new-leave-request
 ```JSON
 {
-    "employee_id": 123, 
-    "start_date": "2025-02-01", 
-    "end_date": "2025-02-05" 
+  "user_id": 123, 
+  "start_date": "2025-02-01", 
+  "end_date": "2025-02-05" 
 }
 ```
 Sample response:
 ```JSON
 {
+  "success": true,
   "message": "Leave request has been submitted for review",
   "data": {
     "id": 456,
-    "employee_id": 123,
+    "user_id": 123,
     "start_date": "2025-02-01",
     "end_date": "2025-02-05",
     "status": "Pending"
@@ -68,4 +69,28 @@ Sample response:
 }
 ```
 
-This project was created using `bun init` in bun v1.2.1. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Sample Admin request: POST /api/admin/new-user
+```JSON
+{
+  "first_name":"Bob",
+  "last_name": "Smith",
+  "email": "bobsmith@company.example.com",
+  "password": "V3ry$ecur3PW",
+  "role": "user",
+  "department": "Energy",
+  "managerID": 254 //Optional Field: if omitted and role is "manager" then the user will be marked to manage themselves otherwise it will return an error
+}
+
+```
+Sample response
+```JSON
+{
+  "success": true,
+  "message": "User Created Successfully",
+  "data":{
+    "user_id": 257,
+    "role": "user",
+    "managerID": 254
+  }
+}
+```

@@ -1,3 +1,4 @@
+import { RegisterNewUser } from "server/handlers/user/RegisterNewUser";
 import { FetchAllUsers, FetchUserByCriteria, type UserSearchCriteria } from "../handlers/user/UserUseCaseIndex";
 import type { UserRelationshipLevel } from "server/handlers/user/UserRelationshipLevel";
 import type { DataSource } from "typeorm";
@@ -18,6 +19,9 @@ export class UserController {
         return await userConditionFetcher.execute(criteria,relationshipLevel);
     }
 
-
+    async addNewUser(){
+        const userInserter = new RegisterNewUser(this.dataSource);
+        return await userInserter.execute();
+    }
 
 }
