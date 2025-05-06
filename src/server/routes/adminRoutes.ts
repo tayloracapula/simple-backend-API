@@ -27,7 +27,7 @@ export class AdminRoutes extends BaseRoute {
                     "Failed to retrieve roles",
                     StatusCode.INTERNAL_ERROR
                 );
-            }
+            } 
         });
 
         adminGroup.get("/users-basic",async (c) => {
@@ -144,7 +144,20 @@ export class AdminRoutes extends BaseRoute {
 
 
         adminGroup.post("/new-user",async (c) => {
-            
+            try {
+                const userData = await c.req.json();
+                
+                const result = await userController.addNewUser(userData);
+                return c.json({
+                    success:true,
+                    message : "User Created Successfully",
+                    data: result
+                })
+
+            } catch (error) {
+                Logger.error("Admin Route add user error", error);
+                return c.text("Failed to add user", StatusCode.INTERNAL_ERROR);
+            }
         })
 
 
