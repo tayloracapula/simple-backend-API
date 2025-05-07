@@ -200,6 +200,48 @@ export class AdminRoutes extends BaseRoute {
             }
         });
 
+    adminGroup.delete("/delete-user", async (c) => {
+            try {
+                const userIdParam =  c.req.param('id');
+
+                if (!userIdParam) {
+                    return c.json(
+                        {
+                            success: false,
+                            message: "User ID is required",
+                        },
+                        StatusCode.BAD_REQUEST
+                    );
+                }
+                const userId = parseInt(userIdParam,10);
+
+                if (isNaN(userId)) {
+                    return c.json(
+                        {
+                            success: false,
+                            message: "User ID must be a number",
+                        },
+                        StatusCode.BAD_REQUEST
+                    );                    
+                }
+
+                const result = await userController.removeUser(userId);
+
+                if (!result.success) return c.json(result, StatusCode.NOT_FOUND);
+
+                return c.json({
+                    success: true,
+                    message: "User Successfully Deleted",
+                    data: result
+                },
+                StatusCode.OK
+            );
+            } catch (error) {
+                Logger.error("Admin Route remove User error", error);
+                return c.text("Failed to remove User", StatusCode.INTERNAL_ERROR);
+            }
+        });
+
         this.handle404(adminGroup);
 
         app.route(this.getBasePath(), adminGroup);
