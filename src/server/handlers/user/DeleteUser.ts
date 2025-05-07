@@ -5,7 +5,7 @@ import { user_management } from "db-src/entity/entities/user_management";
 import { Logger } from "server/Logger";
 import { FetchUserByCriteria } from "./FetchUserByCriteria";
 import { UserRelationshipLevel } from "./UserRelationshipLevel";
-import { leave_booking } from "db-src/entity/entities/leave_bookings";
+import { leave_booking } from "db-src/entity/entities/leave_booking";
 
 export class RemoveUser implements UseCase {
     private dataSource:DataSource;

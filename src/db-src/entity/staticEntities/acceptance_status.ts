@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, type Relation } from "typeorm";
-import { leave_booking } from "../entities/leave_bookings";
+import { leave_booking } from "../entities/leave_booking";
 
 @Entity()
 export class acceptance_status {

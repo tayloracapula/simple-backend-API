@@ -7,7 +7,7 @@ import {
     type Relation,
 } from "typeorm";
 import { user_management } from "./user_management";
-import { leave_booking } from "./leave_bookings";
+import { leave_booking } from "./leave_booking";
 import { role } from "../staticEntities/role";
 import { department } from "../staticEntities/department";
 

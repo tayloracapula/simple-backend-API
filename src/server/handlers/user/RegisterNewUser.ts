@@ -18,18 +18,14 @@ export interface NewUserData {
     password?: string;
     role?: string;
     department?: string;
-    /**Optional Field: if omitted and role is "manager" then the user will be marked to manage themselves otherwise it will return an error*/
+    /**When creating a new user if omitted and role is "manager" then the user will be marked to manage themselves otherwise it will return an error*/
     managerID?: number; //
 }
 
 export class RegisterNewUser implements UseCase {
     private dataSource: DataSource;
-    private userRepository: Repository<user>;
-    private userManagementRepository: Repository<user_management>
     constructor(dataSource: DataSource) {
         this.dataSource = dataSource;
-        this.userRepository = dataSource.getRepository(user);
-        this.userManagementRepository = dataSource.getRepository(user_management);
     }
 
     async execute(userData:NewUserData) {
@@ -39,6 +35,7 @@ export class RegisterNewUser implements UseCase {
             const rolePromiser = new FetchRoleByCriteria(this.dataSource);
             const departmentPromiser = new FetchDepartmentByCriteria(this.dataSource);
             const managerPromiser =  userData.managerID ? new FetchUserByCriteria(this.dataSource): null;
+
             Logger.debug("beginning user entry")
             const hashPromise = PasswordHandler.hashPassword(userData.password!);
             const rolePromise = rolePromiser.execute(userData.role!);
@@ -57,6 +54,8 @@ export class RegisterNewUser implements UseCase {
 
             newUser.role = await rolePromise;
             newUser.department = await departmentPromise;
+
+
             if (userData.role === "Manager" && !userData.managerID) {
                 newUserManagement.manager = newUser;
             }else if (!userData.managerID && userData.role != "Manager") {
