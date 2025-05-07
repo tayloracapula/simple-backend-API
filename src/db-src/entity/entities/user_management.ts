@@ -12,9 +12,9 @@ export class user_management {
     @JoinColumn({name:"user_id"})
     user!: Awaited<user>;
 
-    @ManyToOne(type => user)
+    @ManyToOne(type => user,{nullable:true, onDelete: "SET NULL"})
     @JoinColumn({name:"manager_id"})
-    manager!:Awaited<user>;
+    manager?:Awaited<user>;
 
     @Column("text")
     start_date!: Date;

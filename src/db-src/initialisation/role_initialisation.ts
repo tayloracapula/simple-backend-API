@@ -12,7 +12,7 @@ export async function initialise_roles(dataSource:DataSource): Promise<void> {
     }
 
     const staticRoles = [
-        {role: "Employee"},
+        {role: "User"},
         {role: "Manager"},
         {role: "Admin"},
     ];

@@ -1,5 +1,4 @@
-import { RegisterNewUser, type NewUserData } from "server/handlers/user/RegisterNewUser";
-import { FetchAllUsers, FetchUserByCriteria, type UserSearchCriteria } from "../handlers/user/UserUseCaseIndex";
+import { FetchAllUsers, FetchUserByCriteria,RegisterNewUser, type UserSearchCriteria, type NewUserData } from "../handlers/user/UserUseCaseIndex";
 import type { UserRelationshipLevel } from "server/handlers/user/UserRelationshipLevel";
 import type { DataSource } from "typeorm";
 

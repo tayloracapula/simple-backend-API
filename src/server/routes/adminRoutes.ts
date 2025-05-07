@@ -149,7 +149,7 @@ export class AdminRoutes extends BaseRoute {
                 const userData = await c.req.json();
                 
                 const result = await userController.addNewUser(userData);
-                return c.json({result})
+                return c.json(result,StatusCode.CREATED);
 
             } catch (error) {
                 Logger.error("Admin Route add user error", error);
