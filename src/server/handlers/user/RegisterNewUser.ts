@@ -12,14 +12,14 @@ import { Logger } from "server/Logger";
 
 
 export interface NewUserData {
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-    role: string;
-    department: string;
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    password?: string;
+    role?: string;
+    department?: string;
     /**Optional Field: if omitted and role is "manager" then the user will be marked to manage themselves otherwise it will return an error*/
-    managerID: number; //
+    managerID?: number; //
 }
 
 export class RegisterNewUser implements UseCase {
@@ -34,21 +34,23 @@ export class RegisterNewUser implements UseCase {
 
     async execute(userData:NewUserData) {
         try {
+            this.validateUserData(userData); 
+
             const rolePromiser = new FetchRoleByCriteria(this.dataSource);
             const departmentPromiser = new FetchDepartmentByCriteria(this.dataSource);
             const managerPromiser =  userData.managerID ? new FetchUserByCriteria(this.dataSource): null;
-            Logger.debug("beggining user entry")
-            const hashPromise = PasswordHandler.hashPassword(userData.password);
-            const rolePromise = rolePromiser.execute(userData.role);
-            const departmentPromise = departmentPromiser.execute(userData.department);
+            Logger.debug("beginning user entry")
+            const hashPromise = PasswordHandler.hashPassword(userData.password!);
+            const rolePromise = rolePromiser.execute(userData.role!);
+            const departmentPromise = departmentPromiser.execute(userData.department!);
             const managerPromise = managerPromiser ? managerPromiser.execute({id:userData.managerID},UserRelationshipLevel.BASIC): null;
     
             const newUser = new user();
             const newUserManagement = new user_management();
     
-            newUser.firstname = userData.first_name;
-            newUser.lastname = userData.last_name;
-            newUser.email = userData.email;
+            newUser.firstname = userData.first_name!;
+            newUser.lastname = userData.last_name!;
+            newUser.email = userData.email!;
             newUserManagement.user = newUser;
             newUserManagement.start_date = new Date();
             newUserManagement.end_date = undefined;
@@ -83,5 +85,14 @@ export class RegisterNewUser implements UseCase {
            Logger.error("Failed to add new user",error);
            throw error; 
         }
+    }
+
+    private validateUserData(userData: NewUserData): void {
+            if (!userData.first_name) throw new Error("First name is required");
+            if (!userData.last_name) throw new Error("Last name is required");
+            if (!userData.email) throw new Error("Email is required");
+            if (!userData.password) throw new Error("Password is required");
+            if (!userData.role) throw new Error("Role is required");
+            if (!userData.department) throw new Error("Department is required");
     }
 }
