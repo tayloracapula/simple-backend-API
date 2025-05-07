@@ -14,6 +14,7 @@ import { Logger } from "server/Logger";
 import type { UseCase } from "../UseCase";
 
 export interface UserSearchCriteria {
+    id?: number,
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -37,6 +38,8 @@ export class FetchUserByCriteria implements UseCase {
 
             const buildConditions = (criteria: UserSearchCriteria) => {
                 const conditions: FindOptionsWhere<user> = {};
+
+                if (criteria.id)conditions.user_id = criteria.id;
 
                 if (criteria.firstName)conditions.firstname = ILike(`%${criteria.firstName}%`);
                 if (criteria.lastName)conditions.lastname = ILike(`%${criteria.lastName}%`);

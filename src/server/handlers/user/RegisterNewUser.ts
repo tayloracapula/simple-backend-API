@@ -5,6 +5,9 @@ import { PasswordHandler } from "../tools/PasswordHandler";
 import { user_management } from "db-src/entity/entities/user_management";
 import { FetchRoleByCriteria } from "../role/FetchRoleByCriteria";
 import { FetchDepartmentByCriteria } from "../department/DepartmentUseCaseIndex";
+import { FetchUserByCriteria } from "./FetchUserByCriteria";
+import { UserRelationshipLevel } from "./UserRelationshipLevel";
+import { Logger } from "server/Logger";
 
 
 
@@ -30,28 +33,55 @@ export class RegisterNewUser implements UseCase {
     }
 
     async execute(userData:NewUserData) {
-        const rolePromiser = new FetchRoleByCriteria(this.dataSource);
-        const departmentPromiser = new FetchDepartmentByCriteria(this.dataSource);
-        const hashPromise = PasswordHandler.hashPassword(userData.password);
-        const rolePromise = rolePromiser.execute(userData.role);
-        const departmentPromise = departmentPromiser.execute(userData.department);
+        try {
+            const rolePromiser = new FetchRoleByCriteria(this.dataSource);
+            const departmentPromiser = new FetchDepartmentByCriteria(this.dataSource);
+            const managerPromiser =  userData.managerID ? new FetchUserByCriteria(this.dataSource): null;
+            Logger.debug("beggining user entry")
+            const hashPromise = PasswordHandler.hashPassword(userData.password);
+            const rolePromise = rolePromiser.execute(userData.role);
+            const departmentPromise = departmentPromiser.execute(userData.department);
+            const managerPromise = managerPromiser ? managerPromiser.execute({id:userData.managerID},UserRelationshipLevel.BASIC): null;
+    
+            const newUser = new user();
+            const newUserManagement = new user_management();
+    
+            newUser.firstname = userData.first_name;
+            newUser.lastname = userData.last_name;
+            newUser.email = userData.email;
+            newUserManagement.user = newUser;
+            newUserManagement.start_date = new Date();
+            newUserManagement.end_date = undefined;
 
-        const newUser = new user();
-        const newUserManagement = new user_management();
+            newUser.role = await rolePromise;
+            newUser.department = await departmentPromise;
+            if (userData.role === "Manager" && !userData.managerID) {
+                newUserManagement.manager = newUser;
+            }else if (!userData.managerID && userData.role != "Manager") {
+                throw new Error("User must be a manager to manage themselves");
+            }else{
+                const managerResult = await managerPromise;
+                if (!managerResult||managerResult.data.length === 0) {
+                    throw new Error("Manager lookup failed  manager not found with id: "+ userData.managerID)
+                }
+                newUserManagement.manager = managerResult.data[0];
+            }
+    
+            newUser.password = await hashPromise;
+            
+            return await this.dataSource.transaction(async transactionManager =>{
+                await transactionManager.save(newUser);
+                await transactionManager.save(newUserManagement);
+                return {
+                    success: true,
+                    message: "User Created Successfully",
+                    data: newUser
+                };
+           });
 
-        newUser.firstname = userData.first_name;
-        newUser.lastname = userData.last_name;
-        newUser.email = userData.email;
-        newUser.role = await rolePromise;
-        newUser.department = await departmentPromise;
-        newUserManagement.user = newUser;
-        newUserManagement.start_date = new Date();
-        if (userData.role === "Manager" && !userData.managerID) {
-            newUserManagement.manager = newUser;
-
-
+        } catch (error) {
+           Logger.error("Failed to add new user",error);
+           throw error; 
         }
-
-        newUser.password = await hashPromise;
     }
 }

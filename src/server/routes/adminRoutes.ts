@@ -127,6 +127,7 @@ export class AdminRoutes extends BaseRoute {
                         StatusCode.BAD_REQUEST
                     );
                 }
+
                 await roleController.addNewRole(postData.name);
 
                 return c.json(
@@ -148,11 +149,7 @@ export class AdminRoutes extends BaseRoute {
                 const userData = await c.req.json();
                 
                 const result = await userController.addNewUser(userData);
-                return c.json({
-                    success:true,
-                    message : "User Created Successfully",
-                    data: result
-                })
+                return c.json({result})
 
             } catch (error) {
                 Logger.error("Admin Route add user error", error);

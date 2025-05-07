@@ -19,6 +19,6 @@ export class user_management {
     @Column("text")
     start_date!: Date;
 
-    @Column("text")
-    end_date!: Date;
+    @Column("text", {nullable:true})
+    end_date?: Date;
 }
