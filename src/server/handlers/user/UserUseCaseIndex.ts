@@ -3,4 +3,5 @@ export * from "./FetchUserByCriteria";
 export * from "./RegisterNewUser";
 export * from "./EditUser";
 export * from "./DeleteUser";
-export * from "./FetchRemainingLeave"
+export * from "./FetchRemainingLeave";
+export * from "./NewUserData";

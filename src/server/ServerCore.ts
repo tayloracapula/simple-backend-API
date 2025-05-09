@@ -15,10 +15,12 @@ export class ServerCore extends DatabaseManager {
     constructor(port:number,APIdbFileName: string) {
         super(APIdbFileName);
         this.app = new Hono();
+        Logger.debug("Adding Middleware")
         //Hono middleware
         this.app.use(prettyJSON());
         this.app.use(timing());
         this.app.use(logger())
+        //Custom middleware
         this.app.use(JSONValidate)
 
         this.port = port;

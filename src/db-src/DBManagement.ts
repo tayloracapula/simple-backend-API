@@ -4,6 +4,7 @@ import path from "path";
 import { createAppDataSource } from "data-source";
 import type { DataSource } from "typeorm";
 import { DatabaseInitialiser } from "./initialisation/complete_initialisation";
+import { Logger } from "server/Logger";
 
 export abstract class DatabaseManager extends DatabaseInitialiser {
     private dbPath: string;
@@ -30,16 +31,16 @@ export abstract class DatabaseManager extends DatabaseInitialiser {
     private async checkIfDbExists(): Promise<void> {
         try {
             if (!fs.existsSync(this.dbPath)) {
-                console.log("Database doesn't exist. Initialising");
+                Logger.info("Database doesn't exist. Initialising");
                 await this.dataSource.initialize();
                 await this.initialiseDb();
                 this.dbConnectionPresent = true;
             } else {
-                console.log("Database already exists");
+                Logger.info("Database already exists");
                 this.dbConnectionPresent = false;
             }
         } catch (error) {
-            console.log("Problems checking if Database exists:", error);
+            Logger.error("Problems checking if Database exists:", error);
         }
     }
 
@@ -47,7 +48,7 @@ export abstract class DatabaseManager extends DatabaseInitialiser {
         try {
             await this.initialiseStaticDatabaseTables(this.dataSource);
         } catch (error) {
-            console.log("Problems creating Database:", error);
+            Logger.error("Problems creating Database:", error);
         }
     }
 }

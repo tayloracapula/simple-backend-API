@@ -8,19 +8,9 @@ import { FetchDepartmentByCriteria } from "../department/DepartmentUseCaseIndex"
 import { FetchUserByCriteria } from "./FetchUserByCriteria";
 import { UserRelationshipLevel } from "./UserRelationshipLevel";
 import { Logger } from "server/Logger";
+import type { NewUserData } from "./NewUserData";
 
 
-
-export interface NewUserData {
-    first_name?: string;
-    last_name?: string;
-    email?: string;
-    password?: string;
-    role?: string;
-    department?: string;
-    /**When creating a new user if omitted and role is "manager" then the user will be marked to manage themselves otherwise it will return an error*/
-    managerID?: number; //
-}
 
 export class RegisterNewUser implements UseCase {
     private dataSource: DataSource;
@@ -32,15 +22,15 @@ export class RegisterNewUser implements UseCase {
         try {
             this.validateUserData(userData); 
 
-            const rolePromiser = new FetchRoleByCriteria(this.dataSource);
-            const departmentPromiser = new FetchDepartmentByCriteria(this.dataSource);
-            const managerPromiser =  userData.managerID ? new FetchUserByCriteria(this.dataSource): null;
+            const roleFetcher = new FetchRoleByCriteria(this.dataSource);
+            const departmentFetcher = new FetchDepartmentByCriteria(this.dataSource);
+            const managerFetcher =  userData.managerID ? new FetchUserByCriteria(this.dataSource): null;
 
             Logger.debug("beginning user entry")
             const hashPromise = PasswordHandler.hashPassword(userData.password!);
-            const rolePromise = rolePromiser.execute(userData.role!);
-            const departmentPromise = departmentPromiser.execute(userData.department!);
-            const managerPromise = managerPromiser ? managerPromiser.execute({id:userData.managerID},UserRelationshipLevel.BASIC): null;
+            const rolePromise = roleFetcher.execute(userData.role!);
+            const departmentPromise = departmentFetcher.execute(userData.department!);
+            const managerPromise = managerFetcher ? managerFetcher.execute({id:userData.managerID},UserRelationshipLevel.BASIC): null;
     
             const newUser = new user();
             const newUserManagement = new user_management();
@@ -63,7 +53,7 @@ export class RegisterNewUser implements UseCase {
             }else{
                 const managerResult = await managerPromise;
                 if (!managerResult||managerResult.data.length === 0) {
-                    throw new Error("Manager lookup failed  manager not found with id: "+ userData.managerID)
+                    throw new Error(`Manager lookup failed  manager not found with id: ${userData.managerID} `)
                 }
                 newUserManagement.manager = managerResult.data[0];
             }
@@ -73,10 +63,13 @@ export class RegisterNewUser implements UseCase {
             return await this.dataSource.transaction(async transactionManager =>{
                 await transactionManager.save(newUser);
                 await transactionManager.save(newUserManagement);
+
+                const safeUser = {...newUser};
+                safeUser.password = `#`.repeat(newUser.password.length);
                 return {
                     success: true,
                     message: "User Created Successfully",
-                    data: newUser
+                    data: safeUser
                 };
            });
 

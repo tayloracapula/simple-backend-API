@@ -1,4 +1,4 @@
-import { FetchAllUsers, FetchUserByCriteria,RegisterNewUser, type UserSearchCriteria, type NewUserData, RemoveUser } from "../handlers/user/UserUseCaseIndex";
+import { FetchAllUsers, FetchUserByCriteria,RegisterNewUser, type UserSearchCriteria, type NewUserData, RemoveUser, EditUser } from "../handlers/user/UserUseCaseIndex";
 import type { UserRelationshipLevel } from "server/handlers/user/UserRelationshipLevel";
 import type { DataSource } from "typeorm";
 
@@ -26,6 +26,11 @@ export class UserController {
     async removeUser(userId: number){
         const userRemover = new RemoveUser(this.dataSource);
         return await userRemover.execute(userId);
+    }
+
+    async editUser(updatedUserData:NewUserData, userId: number){
+        const userEditor = new EditUser(this.dataSource);
+        return await userEditor.execute({...updatedUserData,  id:userId})
     }
 
 }
