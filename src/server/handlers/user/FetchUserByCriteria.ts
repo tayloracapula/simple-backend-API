@@ -14,7 +14,7 @@ import { Logger } from "server/Logger";
 import type { UseCase } from "../UseCase";
 
 export interface UserSearchCriteria {
-    id?: number,
+    id?: number;
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -39,27 +39,40 @@ export class FetchUserByCriteria implements UseCase {
             const buildConditions = (criteria: UserSearchCriteria) => {
                 const conditions: FindOptionsWhere<user> = {};
 
-                if (criteria.id)conditions.user_id = criteria.id;
+                if (criteria.id) conditions.user_id = criteria.id;
 
-                if (criteria.firstName)conditions.firstname = ILike(`%${criteria.firstName}%`);
-                if (criteria.lastName)conditions.lastname = ILike(`%${criteria.lastName}%`);
-                if (criteria.email)conditions.email = ILike(`%${criteria.email}%`);
+                if (criteria.firstName)
+                    conditions.firstname = ILike(`%${criteria.firstName}%`);
+                if (criteria.lastName)
+                    conditions.lastname = ILike(`%${criteria.lastName}%`);
+                if (criteria.email)
+                    conditions.email = ILike(`%${criteria.email}%`);
 
-                if (criteria.roleName)conditions.role = { role: ILike(`%${criteria.roleName}%`) };
-                if (criteria.departmentName)conditions.department = {department: ILike(`%${criteria.departmentName}%`)};
+                if (criteria.roleName)
+                    conditions.role = { role: ILike(`%${criteria.roleName}%`) };
+                if (criteria.departmentName)
+                    conditions.department = {
+                        department: ILike(`%${criteria.departmentName}%`),
+                    };
 
                 return conditions;
             };
 
-            const users = await this.repository.find({
+            let users = await this.repository.find({
                 where: buildConditions(criteria),
                 relations: relations,
             });
 
+            const safeUsers = users.map((user) => {
+                const safeUser = { ...user };
+                safeUser.password = `#`.repeat(user.password.length);
+                return safeUser;
+            });
+
             return {
                 success: true,
-                count: users.length,
-                data: users,
+                count: safeUsers.length,
+                data: safeUsers,
             };
         } catch (error) {
             Logger.error("Failed to fetch users by criteria", error);

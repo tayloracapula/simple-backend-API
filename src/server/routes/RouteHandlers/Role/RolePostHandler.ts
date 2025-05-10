@@ -26,13 +26,11 @@ export class RolePostRouteHandler extends RouteHandler {
 
             await this.roleController.addNewRole(postData.name);
 
-            return c.json(
-                {
+            return c.json({
                     success: true,
                     message: "Role created sucessfully",
-                },
-                StatusCode.CREATED
-            );
+                },StatusCode.CREATED);
+
         } catch (error) {
             return this.handleError(error,"Failed to add role",c)
         }

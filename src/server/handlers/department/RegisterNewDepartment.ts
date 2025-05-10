@@ -1,25 +1,9 @@
 import { department } from "db-src/entity/staticEntities/department";
-import { Logger } from "server/Logger";
-import type { Repository, DataSource } from "typeorm";
-import type { UseCase } from "../UseCase";
+import type { DataSource } from "typeorm";
+import { GenericRegistrar } from "../tools/GenericRegistrar";
 
-
-
-export class RegisterNewDepartment implements UseCase {
-    private repository: Repository<department>;
-
+export class RegisterNewDepartment extends GenericRegistrar<department>{
     constructor(dataSource: DataSource) {
-        this.repository = dataSource.getRepository(department);
-    }
-
-    async execute(newDepartmentName:string) {
-        try {
-            Logger.debug("Inserting new role", newDepartmentName)
-            this.repository.insert({
-                department: newDepartmentName
-            })
-        } catch (error) {
-            Logger.error(`Failed to insert new role ${newDepartmentName} `, error)
-        }
+        super(dataSource,department,"department")
     }
 }

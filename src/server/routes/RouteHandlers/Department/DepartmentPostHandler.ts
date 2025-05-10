@@ -10,7 +10,7 @@ export class DepartmentPostHandler extends RouteHandler {
         this.departmentController = departmentController
     }
     registerRoutes(): void {
-        
+        this.app.post("new-department",this.addNewDepartment.bind(this))
     }
 
     private async addNewDepartment(c:Context){

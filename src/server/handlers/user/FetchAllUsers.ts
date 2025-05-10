@@ -19,10 +19,16 @@ export class FetchAllUsers implements UseCase {
                 relations: relations
             })
 
+            const safeUsers = users.map(user=>{
+                const safeUser = {...user}
+                safeUser.password = `#`.repeat(user.password.length);
+                return safeUser;
+            })
+
             return {
                 success: true,
-                count: users.length,
-                data: users
+                count: safeUsers.length,
+                data: safeUsers
             }
             
         } catch (error) {

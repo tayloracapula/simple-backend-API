@@ -10,7 +10,7 @@ export class DepartmentDeleteHandler extends RouteHandler {
         this.departmentController = departmentController;
     }
     registerRoutes(): void {
-        
+       this.app.delete("delete-department",this.deleteDepartment.bind(this)) 
     }
 
     private async deleteDepartment(c:Context) {
