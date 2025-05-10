@@ -13,6 +13,8 @@ import { RoleGetRouteHandler } from "./RouteHandlers/Role/RoleGetHandler";
 import { RolePostRouteHandler } from "./RouteHandlers/Role/RolePostHandler";
 import { RoleDeleteRouteHandler } from "./RouteHandlers/Role/RoleDeleteHandler";
 import { DepartmentGetHandler } from "./RouteHandlers/Department/DepartmentGetHandler";
+import { DepartmentPostHandler } from "./RouteHandlers/Department/DepartmentPostHandler";
+import { DepartmentDeleteHandler } from "./RouteHandlers/Department/DepartmentDeleteHandler";
 
 export class AdminRoutes extends BaseRoute {
     getBasePath(): string {
@@ -33,6 +35,8 @@ export class AdminRoutes extends BaseRoute {
            .register(RolePostRouteHandler,roleController)
            .register(RoleDeleteRouteHandler,roleController)
            .register(DepartmentGetHandler,departmentController)
+           .register(DepartmentPostHandler,departmentController)
+           .register(DepartmentDeleteHandler,departmentController)
            .registerAll();
 
         this.handle404(adminGroup);

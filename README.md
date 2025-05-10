@@ -38,9 +38,7 @@ Login is necessary to see API endpoints
 JSON web tokes will be used for authentication these will have the JWT as 
 https://medium.com/@maison.moa/using-jwt-json-web-tokens-to-authorize-users-and-protect-api-routes-3e04a1453c3e  <-- JWT tut i referenced
 https://github.com/panva/jose <-- repo for the JWT module  
-```bash
-bun add jose
-```
+
 only the login will be accessible all other routes are protected until the JWT is aquired
 
 
