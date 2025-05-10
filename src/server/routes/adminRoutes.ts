@@ -5,8 +5,11 @@ import { Logger } from "server/Logger";
 import { RoleController } from "server/controllers/RoleController";
 import { UserController } from "server/controllers/UserController";
 import { StatusCode } from "server/StatusCodes";
-import { UserRelationshipLevel } from "server/handlers/user/UserRelationshipLevel";
-import type { UserSearchCriteria } from "server/handlers/user/FetchUserByCriteria";
+import { RouteRegistry } from "./RouteRegistry";
+import { UserGetRouteHandler } from "./RouteHandlers/User/UserGetHandler";
+import { UserPostRouteHandler } from "./RouteHandlers/User/UserPostHandler";
+import { UserDeleteRouteHandler } from "./RouteHandlers/User/UserDeleteHandler";
+import { UserPatchRouteHandler } from "./RouteHandlers/User/UserPatchHandler";
 
 export class AdminRoutes extends BaseRoute {
     getBasePath(): string {
@@ -16,6 +19,15 @@ export class AdminRoutes extends BaseRoute {
         const adminGroup = new Hono();
         const roleController = new RoleController(dataSource);
         const userController = new UserController(dataSource);
+
+
+        new RouteRegistry(adminGroup,dataSource)
+           .register(UserGetRouteHandler,userController)
+           .register(UserPostRouteHandler,userController)
+           .register(UserDeleteRouteHandler,userController)
+           .register(UserPatchRouteHandler,userController)
+           .registerAll();
+
         adminGroup.get("/roles", async (c) => {
             try {
                 const result = await roleController.getAllRoles();
@@ -30,89 +42,7 @@ export class AdminRoutes extends BaseRoute {
             } 
         });
 
-        adminGroup.get("/users-basic",async (c) => {
-            try {
-                const result = await userController.getAllUsers(UserRelationshipLevel.BASIC);
-
-                return c.json(result)
-            } catch (error) {
-                Logger.error("Admin Route retrieve users error", error)
-                return c.text(
-                    "Failed to retrieve users",
-                    StatusCode.INTERNAL_ERROR
-                )
-                
-            }
-        });
-
-        adminGroup.get("/users-standard",async (c) => {
-            try {
-                const result = await userController.getAllUsers(UserRelationshipLevel.STANDARD);
-
-                return c.json(result)
-            } catch (error) {
-                Logger.error("Admin Route retrieve users error", error)
-                return c.text(
-                    "Failed to retrieve users",
-                    StatusCode.INTERNAL_ERROR
-                )
-                
-            }
-        });
-
-        adminGroup.get("/users-management",async (c) => {
-            try {
-                const result = await userController.getAllUsers(UserRelationshipLevel.MANAGEMENT);
-
-                return c.json(result)
-            } catch (error) {
-                Logger.error("Admin Route retrieve users error", error)
-                return c.text(
-                    "Failed to retrieve users",
-                    StatusCode.INTERNAL_ERROR
-                )
-                
-            }
-        });
-
-        adminGroup.get("/users-full",async (c) => {
-            try {
-                const result = await userController.getAllUsers(UserRelationshipLevel.FULL);
-
-                return c.json(result)
-            } catch (error) {
-                Logger.error("Admin Route retrieve users error", error)
-                return c.text(
-                    "Failed to retrieve users",
-                    StatusCode.INTERNAL_ERROR
-                )
-                
-            }
-        });
-
-        adminGroup.get("/search-users", async (c) => {
-            try {
-                const searchCriteria:UserSearchCriteria ={
-                    firstName: c.req.query('first-name'),
-                    lastName: c.req.query('last-name'),
-                    email: c.req.query('email'),
-                    roleName: c.req.query('role-name'),
-                    departmentName: c.req.query('department-name'),
-                }
-                
-                const level = (c.req.query('level') as UserRelationshipLevel || UserRelationshipLevel.STANDARD);
-                const result = userController.getUserByCondition(searchCriteria,level);
-
-                return c.json(result);
-
-            } catch (error) {
-                Logger.error("Admin Route search users error", error)
-                return c.text(
-                    "Failed to search users",
-                    StatusCode.INTERNAL_ERROR
-                )
-            }
-        })
+       
 
         adminGroup.post("/new-role", async (c) => {
             try {
@@ -142,20 +72,6 @@ export class AdminRoutes extends BaseRoute {
                 return c.text("Failed to add role", StatusCode.INTERNAL_ERROR);
             }
         });
-
-
-        adminGroup.post("/new-user",async (c) => {
-            try {
-                const userData = await c.req.json();
-                
-                const result = await userController.addNewUser(userData);
-                return c.json(result,StatusCode.CREATED);
-
-            } catch (error) {
-                Logger.error("Admin Route add user error", error);
-                return c.text("Failed to add user", StatusCode.INTERNAL_ERROR);
-            }
-        })
 
 
         adminGroup.delete("/delete-role", async (c) => {
@@ -197,48 +113,6 @@ export class AdminRoutes extends BaseRoute {
             } catch (error) {
                 Logger.error("Admin Route remove role error", error);
                 return c.text("Failed to remove role", StatusCode.INTERNAL_ERROR);
-            }
-        });
-
-    adminGroup.delete("/delete-user", async (c) => {
-            try {
-                const userIdParam =  c.req.param('id');
-
-                if (!userIdParam) {
-                    return c.json(
-                        {
-                            success: false,
-                            message: "User ID is required",
-                        },
-                        StatusCode.BAD_REQUEST
-                    );
-                }
-                const userId = parseInt(userIdParam,10);
-
-                if (isNaN(userId)) {
-                    return c.json(
-                        {
-                            success: false,
-                            message: "User ID must be a number",
-                        },
-                        StatusCode.BAD_REQUEST
-                    );                    
-                }
-
-                const result = await userController.removeUser(userId);
-
-                if (!result.success) return c.json(result, StatusCode.NOT_FOUND);
-
-                return c.json({
-                    success: true,
-                    message: "User Successfully Deleted",
-                    data: result
-                },
-                StatusCode.OK
-            );
-            } catch (error) {
-                Logger.error("Admin Route remove User error", error);
-                return c.text("Failed to remove User", StatusCode.INTERNAL_ERROR);
             }
         });
 

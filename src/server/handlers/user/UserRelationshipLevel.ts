@@ -14,6 +14,21 @@ export enum UserRelationshipLevel {
     FULL = "full", 
 }
 
+export function getRelationshipLevelFromString(input:string):UserRelationshipLevel {
+    const map : Record<string, UserRelationshipLevel> = {
+        "basic": UserRelationshipLevel.BASIC,
+        "standard": UserRelationshipLevel.STANDARD,
+        "standardwbookings": UserRelationshipLevel.STANDARDWBOOKINGS,
+        "management": UserRelationshipLevel.MANAGEMENT,
+        "full": UserRelationshipLevel.FULL
+    };
+    const level =  map[input.toLowerCase()];
+    if (!level){
+        throw new Error(`Invalid relationship level: ${input}`);
+    }
+    return level;
+}
+
 export function getRelationshipsForLevel(level:UserRelationshipLevel): FindOptionsRelations<user> {
     switch (level) {
         case UserRelationshipLevel.BASIC:

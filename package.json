@@ -13,7 +13,6 @@
     "dependencies": {
         "dotenv": "^16.4.7",
         "hono": "^4.7.5",
-        "sqlite3": "^5.1.7",
         "typeorm": "^0.3.22",
         "typeorm-naming-strategies": "^4.1.0"
     },
@@ -21,6 +20,6 @@
         "start": "bun src/index.ts",
         "resetdb": "bun scripts/reset-db.ts",
         "debug": "DEBUG=true  bun src/index.ts",
-        "debugwatch": "set DEBUG =true && bun --watch src/index.ts" 
+        "debugwatch": "DEBUG=true --watch src/index.ts"
     }
 }

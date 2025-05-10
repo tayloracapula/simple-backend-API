@@ -39,9 +39,7 @@ export class EditUser implements UseCase {
                 where: { user_id: updatedUserData.id },
             });
             if (!existingUser) {
-                throw new Error(
-                    `User with id ${updatedUserData.id} does not exist`
-                );  
+                throw new Error(`User with id ${updatedUserData.id} does not exist`);  
             }
 
             if (updatedUserData.first_name) existingUser.firstname = updatedUserData.first_name;
