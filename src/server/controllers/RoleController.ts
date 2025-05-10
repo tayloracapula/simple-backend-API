@@ -8,17 +8,17 @@ export class RoleController {
         this.dataSource = dataSource;
     }
 
-    async getAllRoles() {
+    async fetchAllRoles() {
         const roleFetcher = new FetchAvailableRoles(this.dataSource);
         return await roleFetcher.execute();
     }
 
     async addNewRole(newRoleName:string){
-        const roleInserter = new RegisterNewRole(this.dataSource);
-        return await roleInserter.execute(newRoleName);
+        const newRoleRegistrar = new RegisterNewRole(this.dataSource);
+        return await newRoleRegistrar.execute(newRoleName);
     }
 
-    async removeRole(roleId:number){
+    async deleteRole(roleId:number){
         const roleRemover = new RemoveRole(this.dataSource);
         return await roleRemover.execute(roleId);
     }

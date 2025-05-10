@@ -37,4 +37,16 @@ server.getRouteManager()
 
 
 await server.initialiseRoutes();
+
+process.on('SIGINT', async () => {
+    Logger.warn("Server Shutting Down");
+    try {
+        await server.shutdown();
+    } catch (error) {
+        Logger.error("Error During Shutdown",error)
+    }    
+    Logger.warn("Server Shutdown Complete");
+    process.exit(0);
+})
+
 export default server.app;

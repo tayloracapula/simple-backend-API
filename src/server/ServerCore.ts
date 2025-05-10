@@ -38,6 +38,12 @@ export class ServerCore extends DatabaseManager {
         return this;
     }
 
+    async shutdown():Promise<void>{
+        Logger.debug("Closing DB connection");
+        await this.dataSource.destroy()
+        Logger.warn("DB Connection closed");
+    }
+
 }
 
 

@@ -30,7 +30,6 @@ export class RemoveRole implements UseCase {
             return{
                 success:true,
                 message: "Role Deleted Successfully",
-                data: result
             };
         } catch (error) {
             Logger.error("Failed to remove role",error);

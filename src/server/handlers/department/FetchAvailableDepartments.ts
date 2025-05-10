@@ -4,7 +4,7 @@ import { department } from "db-src/entity/staticEntities/department";
 import type { DataSource } from "typeorm/browser";
 import { Logger } from "server/Logger";
 
-export class FetchAvailableRoles implements UseCase {
+export class FetchAvailableDepartments implements UseCase {
     private repository: Repository<department>;
 
     constructor(dataSource: DataSource) {

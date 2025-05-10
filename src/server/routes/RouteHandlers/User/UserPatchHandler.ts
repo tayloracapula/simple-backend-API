@@ -2,6 +2,7 @@ import type { UserController } from "server/controllers/UserController";
 import { RouteHandler } from "../RouteHandler";
 import type { Context, Hono } from "hono";
 import { StatusCode } from "server/StatusCodes";
+import { parseID } from "../IdParsing";
 
 export class UserPatchRouteHandler extends RouteHandler {
     private userController: UserController;
@@ -15,21 +16,7 @@ export class UserPatchRouteHandler extends RouteHandler {
 
     private async editUser(c:Context){
         try {
-            const userIdParam = c.req.param("id")
-            if (!userIdParam) {
-                return c.json({
-                    success: false,
-                    message: "User ID is required"
-                },StatusCode.BAD_REQUEST);
-            }
-            const userId = parseInt(userIdParam, 10);
-            if (isNaN(userId)) {
-                return c.json({
-                        success: false,
-                        message: "User ID must be a number",
-                    },
-                    StatusCode.BAD_REQUEST);
-            }
+            const userId = parseID(c);
             const userData = await c.req.json()
             const result = await this.userController.editUser(userData,userId)
             return c.json(result,StatusCode.OK)

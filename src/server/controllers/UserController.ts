@@ -1,4 +1,4 @@
-import { FetchAllUsers, FetchUserByCriteria,RegisterNewUser, type UserSearchCriteria, type NewUserData, RemoveUser, EditUser } from "../handlers/user/UserUseCaseIndex";
+import { FetchAllUsers, FetchUserByCriteria,RegisterNewUser, type UserSearchCriteria, type NewUserData, RemoveUser, EditUser, FetchRemainingLeave } from "../handlers/user/UserUseCaseIndex";
 import type { UserRelationshipLevel } from "server/handlers/user/UserRelationshipLevel";
 import type { DataSource } from "typeorm";
 
@@ -8,19 +8,24 @@ export class UserController {
     constructor(dataSource: DataSource) {
         this.dataSource = dataSource;    
     }
-    async getAllUsers(relationshipLevel:UserRelationshipLevel){
+    async fetchAllUsers(relationshipLevel:UserRelationshipLevel){
         const userFetcher = new FetchAllUsers(this.dataSource);
         return await userFetcher.execute(relationshipLevel);
     }
 
-    async getUserByCondition(criteria:UserSearchCriteria, relationshipLevel:UserRelationshipLevel){
+    async fetchUserByCriteria(criteria:UserSearchCriteria, relationshipLevel:UserRelationshipLevel){
         const userConditionFetcher = new FetchUserByCriteria(this.dataSource);
         return await userConditionFetcher.execute(criteria,relationshipLevel);
     }
 
+    async fetchRemainingLeave(userId:number) {
+       const remaingLeaveFetcher = new FetchRemainingLeave(this.dataSource);
+       return await remaingLeaveFetcher.execute(userId);
+    }
+
     async addNewUser(userData:NewUserData){
-        const userInserter = new RegisterNewUser(this.dataSource);
-        return await userInserter.execute(userData);
+        const newUserRegistrar = new RegisterNewUser(this.dataSource);
+        return await newUserRegistrar.execute(userData);
     }
 
     async removeUser(userId: number){
