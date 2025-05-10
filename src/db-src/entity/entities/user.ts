@@ -42,7 +42,7 @@ export class user {
     user_management!: Relation<user_management>[];
 
     @OneToMany(() => user_management,(user_management) => user_management.manager)
-    manager_management!: Relation<user_management>[];
+    managed_employees!: Relation<user_management>[];
 
     @OneToMany(() => leave_booking, (leave_bookings) => leave_bookings.user)
     leave_bookings!: Relation<leave_booking>[];

@@ -1,4 +1,4 @@
-import type { DataSource, Repository } from "typeorm";
+import type { DataSource } from "typeorm";
 import type { UseCase } from "../UseCase";
 import { user } from "db-src/entity/entities/user";
 import { PasswordHandler } from "../tools/PasswordHandler";
@@ -52,7 +52,7 @@ export class RegisterNewUser implements UseCase {
                 throw new Error("User must be a manager to manage themselves");
             }else{
                 const managerResult = await managerPromise;
-                if (!managerResult||managerResult.data.length === 0) {
+                if (!managerResult||managerResult.count === 0) {
                     throw new Error(`Manager lookup failed  manager not found with id: ${userData.managerID} `)
                 }
                 newUserManagement.manager = managerResult.data[0];

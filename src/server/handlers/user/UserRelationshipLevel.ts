@@ -47,7 +47,7 @@ export function getRelationshipsForLevel(level:UserRelationshipLevel): FindOptio
                 user_management: {
                     manager:true
                 },
-                manager_management:{
+                managed_employees:{
                     user: true
                 }
             }
@@ -59,7 +59,7 @@ export function getRelationshipsForLevel(level:UserRelationshipLevel): FindOptio
                 user_management: {
                     manager:true
                 },
-                manager_management:{
+                managed_employees:{
                     user: true
                 },
                 leave_bookings: true

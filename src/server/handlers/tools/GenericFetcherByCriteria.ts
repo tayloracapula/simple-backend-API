@@ -1,6 +1,5 @@
-import type { EntityTarget, FindOptionsWhere, Repository } from "typeorm";
+import type { DataSource, EntityTarget, FindOptionsWhere, Repository } from "typeorm";
 import type { UseCase } from "../UseCase";
-import type { DataSource } from "typeorm/browser";
 import { Logger } from "server/Logger";
 
 export class GenericFetcherByCritetia<T extends object> implements UseCase {
@@ -16,7 +15,7 @@ export class GenericFetcherByCritetia<T extends object> implements UseCase {
             const whereParams: FindOptionsWhere<T> = {}
             whereParams[this.nameField] = name as any;
 
-            const result = this.repository.findOneBy(whereParams);
+            const result = await this.repository.findOneBy(whereParams);
             if (!result) {
                 throw new Error(`${this.repository.metadata.name} with name ${name} does not exist`);
             }

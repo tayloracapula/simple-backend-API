@@ -49,7 +49,8 @@ Sample request: POST /api/user/new-leave-request
 {
   "user_id": 123, 
   "start_date": "2025-02-01", 
-  "end_date": "2025-02-05" 
+  "end_date": "2025-02-05",
+  "booking_type": "Annual_Leave" 
 }
 ```
 Sample response:

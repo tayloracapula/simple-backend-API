@@ -12,10 +12,10 @@ export async function initialise_booking_type(dataSource:DataSource): Promise<vo
     }
 
     const staticBookingStatus = [
-        {booking_type: "Annual leave"},
-        {booking_type: "Sick leave"},
-        {booking_type: "Voulenteer Days"},
-        {booking_type: "Unpaid leave"}
+        {booking_type: "Annual_Leave"},
+        {booking_type: "Sick_Leave"},
+        {booking_type: "Voulenteer_Days"},
+        {booking_type: "Unpaid_Leave"}
     ];
     await typeTableRepository.save(staticBookingStatus);
     
