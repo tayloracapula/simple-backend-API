@@ -32,8 +32,6 @@ for data storage Sqlite will be used, why? cus its awesome it is light, fast and
 
 the database design can be viewed here https://bit.ly/3XzLByj
 
-https://dextrop.medium.com/how-to-build-a-fast-and-lightweight-api-with-node-js-and-sqlite-676cbbec1b6a <-- article on sqlite and typescript
-
 Login is necessary to see API endpoints
 JSON web tokes will be used for authentication these will have the JWT as 
 https://medium.com/@maison.moa/using-jwt-json-web-tokens-to-authorize-users-and-protect-api-routes-3e04a1453c3e  <-- JWT tut i referenced
@@ -75,9 +73,9 @@ Sample Admin request: POST /api/admin/new-user
   "last_name": "Smith",
   "email": "bobsmith@company.example.com",
   "password": "V3ry$ecur3PW",
-  "role": "user",
+  "role": "User",
   "department": "Energy",
-  "managerID": 254 //Optional Field: if omitted and role is "manager" then the user will be marked to manage themselves otherwise it will return an error
+  "managerID": 254 //Optional Field: if omitted and role is "Manager" then the user will be marked to manage themselves otherwise it will return an error
 }
 
 ```

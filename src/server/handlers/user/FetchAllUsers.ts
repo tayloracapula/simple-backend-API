@@ -3,6 +3,7 @@ import { Logger } from "server/Logger";
 import type { DataSource, FindOptionsRelations, Repository } from "typeorm";
 import { getRelationshipsForLevel, UserRelationshipLevel } from "./UserRelationshipLevel";
 import type { UseCase } from "../UseCase";
+import { maskPasswords } from "../tools/MaskPasswords";
 
 export class FetchAllUsers implements UseCase {
     private repository: Repository<user>
@@ -19,11 +20,7 @@ export class FetchAllUsers implements UseCase {
                 relations: relations
             })
 
-            const safeUsers = users.map(user=>{
-                const safeUser = {...user}
-                safeUser.password = `#`.repeat(user.password.length);
-                return safeUser;
-            })
+            const safeUsers = maskPasswords(users);
 
             return {
                 success: true,

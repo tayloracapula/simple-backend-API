@@ -1,6 +1,6 @@
-import { ServerCore } from "server/ServerCore";
-import dotenv from "dotenv";
 import "reflect-metadata";
+import dotenv from "dotenv";
+import { ServerCore } from "server/ServerCore";
 import { UserRoutes } from "server/routes/userRoutes";
 import { AdminRoutes } from "server/routes/adminRoutes";
 import { ManagerRoutes } from "server/routes/managerRoutes";
@@ -12,6 +12,11 @@ const defaultDbName = "./db/api.sqlite";
 dotenv.config();
 let port = Number(process.env.PORT);
 let dbName = process.env.DATABASE;
+
+if (!process.env.JWT_SECRET||typeof process.env.JWT_SECRET == null) {
+    Logger.error("CRITICAL ERROR: JWT_SECRET environment variable not set");
+    process.exit(1);
+}
 
 if (typeof dbName !== "string" || typeof dbName == null) {
     console.warn(`Invalid database name, using default name ${defaultDbName}`);

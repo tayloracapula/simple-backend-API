@@ -42,7 +42,7 @@ export class UserGetRouteHandler extends RouteHandler{
                     departmentName: c.req.query('department-name'),
                 }
                 
-                const level = (c.req.query('level') as UserRelationshipLevel || UserRelationshipLevel.STANDARD);
+                const level = (c.req.query('relationship-level') as UserRelationshipLevel || UserRelationshipLevel.STANDARD);
                 const result = await this.userController.fetchUserByCriteria(searchCriteria,level);
 
                 return c.json(result,StatusCode.OK);

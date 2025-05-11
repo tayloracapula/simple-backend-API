@@ -1,6 +1,6 @@
 import type { Context, Next } from "hono";
-import { Logger } from "./Logger";
-import { StatusCode } from "./StatusCodes";
+import { Logger } from "../Logger";
+import { StatusCode } from "../StatusCodes";
 
 export async function JSONValidate(c:Context, next:Next) {
     const method = c.req.method;

@@ -5,7 +5,8 @@ import { RouteManager, type IRouteManager } from "./RouteManager";
 import { Logger } from "./Logger";
 import { timing } from "hono/timing";
 import { logger } from "hono/logger";
-import { JSONValidate } from "./ServerMiddleware";
+import { JSONValidate } from "./ServerMiddleware/JSONValidate";
+import { JWTAuth } from "./ServerMiddleware/JWTAuth";
 
 export class ServerCore extends DatabaseManager {
     app:Hono;
@@ -21,8 +22,8 @@ export class ServerCore extends DatabaseManager {
         this.app.use(timing());
         this.app.use(logger())
         //Custom middleware
-        this.app.use(JSONValidate)
-
+        this.app.use(JSONValidate);
+        //this.app.use(JWTAuth);
         this.port = port;
         this.routeManager = new RouteManager();
     }

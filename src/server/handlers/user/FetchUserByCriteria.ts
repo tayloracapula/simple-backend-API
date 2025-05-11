@@ -12,6 +12,7 @@ import {
 } from "./UserRelationshipLevel";
 import { Logger } from "server/Logger";
 import type { UseCase } from "../UseCase";
+import { maskPasswords } from "../tools/MaskPasswords";
 
 export interface UserSearchCriteria {
     id?: number;
@@ -63,11 +64,7 @@ export class FetchUserByCriteria implements UseCase {
                 relations: relations,
             });
 
-            const safeUsers = users.map((user) => {
-                const safeUser = { ...user };
-                safeUser.password = `#`.repeat(user.password.length);
-                return safeUser;
-            });
+            const safeUsers = maskPasswords(users);
 
             return {
                 success: true,
