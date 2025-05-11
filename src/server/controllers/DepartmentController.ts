@@ -11,8 +11,8 @@ export class DepartmentController {
     }
 
     async fetchAllDepartments() {
-        const DepartmentsFetcher = new FetchAvailableDepartments(this.dataSource);
-        return await DepartmentsFetcher.execute();
+        const departmentsFetcher = new FetchAvailableDepartments(this.dataSource);
+        return await departmentsFetcher.execute();
     }
 
     async addNewDepartment(newDepartmentName:string){

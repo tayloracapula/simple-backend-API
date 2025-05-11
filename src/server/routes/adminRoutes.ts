@@ -15,6 +15,10 @@ import { RoleDeleteRouteHandler } from "./RouteHandlers/Role/RoleDeleteHandler";
 import { DepartmentGetHandler } from "./RouteHandlers/Department/DepartmentGetHandler";
 import { DepartmentPostHandler } from "./RouteHandlers/Department/DepartmentPostHandler";
 import { DepartmentDeleteHandler } from "./RouteHandlers/Department/DepartmentDeleteHandler";
+import { BookingTypeGetHandler } from "./RouteHandlers/BookingType/BookingTypeGetHandler";
+import { BookingTypeController } from "server/controllers/BookingTypeController";
+import { BookingTypeDeleteHandler } from "./RouteHandlers/BookingType/BookingTypeDeleteHandler";
+import { BookingTypePostHandler } from "./RouteHandlers/BookingType/BookingTypePostHandler";
 
 export class AdminRoutes extends BaseRoute {
     getBasePath(): string {
@@ -25,7 +29,7 @@ export class AdminRoutes extends BaseRoute {
         const roleController = new RoleController(dataSource);
         const userController = new UserController(dataSource);
         const departmentController = new DepartmentController(dataSource);
-
+        const bookingTypeController = new BookingTypeController(dataSource);
         new RouteRegistry(adminGroup,dataSource)
            .register(UserGetRouteHandler,userController)
            .register(UserPostRouteHandler,userController)
@@ -37,6 +41,9 @@ export class AdminRoutes extends BaseRoute {
            .register(DepartmentGetHandler,departmentController)
            .register(DepartmentPostHandler,departmentController)
            .register(DepartmentDeleteHandler,departmentController)
+           .register(BookingTypeGetHandler,bookingTypeController)
+           .register(BookingTypeDeleteHandler,bookingTypeController)
+           .register(BookingTypePostHandler,bookingTypeController)
            .registerAll();
 
         this.handle404(adminGroup);
