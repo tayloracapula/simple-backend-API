@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import type { DataSource } from "typeorm";
 import { BaseRoute } from "./baseRoute";
+import { LoginController } from "server/controllers/LoginController";
+import { RouteRegistry } from "./RouteRegistry";
 
 export class LoginRoutes extends BaseRoute {
     getBasePath(): string {
@@ -8,6 +10,9 @@ export class LoginRoutes extends BaseRoute {
     }       
     registerRoutes(app: Hono, dataSource: DataSource): void {
         const loginGroup = new Hono()
+        const loginController = new LoginController(dataSource)
+        
+        new RouteRegistry(app,dataSource)
 
         this.handle404(loginGroup);
 
