@@ -26,6 +26,12 @@ export class ApproveDenyBooking implements UseCase {
             }
 
             this.repository.save(bookingToApprove);
+
+            return{
+                success: true,
+                message: "Booking successfully changed",
+                data: bookingToApprove
+            }
             
         } catch (error) {
             Logger.error("Failed to edit booking",error)
