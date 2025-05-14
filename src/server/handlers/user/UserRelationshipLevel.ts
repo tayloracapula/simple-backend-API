@@ -4,67 +4,82 @@ import type { FindOptionsRelations } from "typeorm";
 export enum UserRelationshipLevel {
     /**Just user data */
     BASIC = "basic",
-    /**User and role and department */ 
+    /**User and role and department */
     STANDARD = "standard",
     /**User role and department including leave booking data*/
     STANDARDWBOOKINGS = "standardwbookings",
     /**Adds management relationships */
     MANAGEMENT = "management",
     /**Everything including leave data */
-    FULL = "full", 
+    FULL = "full",
 }
 
-export function getRelationshipLevelFromString(input:string):UserRelationshipLevel {
-    const map : Record<string, UserRelationshipLevel> = {
-        "basic": UserRelationshipLevel.BASIC,
-        "standard": UserRelationshipLevel.STANDARD,
-        "standardwbookings": UserRelationshipLevel.STANDARDWBOOKINGS,
-        "management": UserRelationshipLevel.MANAGEMENT,
-        "full": UserRelationshipLevel.FULL
+export function getRelationshipLevelFromString(
+    input: string
+): UserRelationshipLevel {
+    const map: Record<string, UserRelationshipLevel> = {
+        basic: UserRelationshipLevel.BASIC,
+        standard: UserRelationshipLevel.STANDARD,
+        standardwbookings: UserRelationshipLevel.STANDARDWBOOKINGS,
+        management: UserRelationshipLevel.MANAGEMENT,
+        full: UserRelationshipLevel.FULL,
     };
-    const level =  map[input.toLowerCase()];
-    if (!level){
+    const level = map[input.toLowerCase()];
+    if (!level) {
         throw new Error(`Invalid relationship level: ${input}`);
     }
     return level;
 }
 
-export function getRelationshipsForLevel(level:UserRelationshipLevel): FindOptionsRelations<user> {
+export function getRelationshipsForLevel(
+    level: UserRelationshipLevel
+): FindOptionsRelations<user> {
     switch (level) {
         case UserRelationshipLevel.BASIC:
             return {};
-        
+
         case UserRelationshipLevel.STANDARD:
             return {
                 role: true,
-                department: true
+                department: true,
+            };
+
+        case UserRelationshipLevel.STANDARDWBOOKINGS:
+            return {
+                role: true,
+                department: true,
+                leave_bookings: { 
+                    booking_type: true,
+                    status:true
+                },
+
             };
 
         case UserRelationshipLevel.MANAGEMENT:
-            return{
+            return {
                 role: true,
                 department: true,
                 user_management: {
-                    manager:true
+                    manager: true,
                 },
-                managed_employees:{
-                    user: true
-                }
-            }
+                managed_employees: {
+                    user: true,
+                },
+            };
 
         case UserRelationshipLevel.FULL:
             return {
                 role: true,
                 department: true,
                 user_management: {
-                    manager:true
+                    manager: true,
                 },
-                managed_employees:{
-                    user: true
+                managed_employees: {
+                    user: true,
                 },
-                leave_bookings: true
-            }
+                leave_bookings: true,
+            };
         default:
-            return {role: true};
+            return { role: true };
     }
 }

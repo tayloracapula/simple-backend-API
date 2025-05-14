@@ -1,6 +1,5 @@
 import type { DataSource, Repository } from "typeorm";
 import type { UseCase } from "../UseCase";
-import { user } from "db-src/entity/entities/user";
 import { user_management } from "db-src/entity/entities/user_management";
 import { Logger } from "server/Logger";
 import { FetchUserByCriteria } from "./FetchUserByCriteria";
@@ -9,10 +8,8 @@ import { leave_booking } from "db-src/entity/entities/leave_booking";
 
 export class RemoveUser implements UseCase {
     private dataSource:DataSource;
-    private userRepository: Repository<user>;
     constructor(dataSource:DataSource) {
         this.dataSource = dataSource;
-        this.userRepository = dataSource.getRepository(user);
     }
 
     async execute(idToRemove:number) {

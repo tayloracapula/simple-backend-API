@@ -68,14 +68,20 @@ export class EditUser implements UseCase {
     private async updateUserManager(existingUser: user, newManagerID: number) {
             const activeManagement = await this.userManagementRepository.findOne({
                 where:{
-                    user: existingUser,
+                    user: {user_id:existingUser.user_id},
                     end_date: IsNull()
+                 },
+                 relations:{
+                    user: true,
+                    manager: true
                  }
             });
-
+            if (!activeManagement) {
+                throw new Error(`User: ${existingUser.user_id} does not have active management`);
+            }
+            const test:user_management = activeManagement
             if (activeManagement) {
                 activeManagement.end_date = new Date();
-                await this.userManagementRepository.save(activeManagement);
             }
 
             const newManagement = new user_management()
@@ -93,6 +99,9 @@ export class EditUser implements UseCase {
             };
             newManagement.manager = newManager;
 
-            await this.userManagementRepository.save(newManagement);
+            return await this.dataSource.transaction(async transactionManager => {
+                await transactionManager.save(activeManagement);
+                await transactionManager.save(newManagement);
+            })
     }
 }

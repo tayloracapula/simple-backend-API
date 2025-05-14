@@ -8,6 +8,7 @@ export class StatusCode {
     static readonly ACCEPTED = 202;
     /** Code 204 */
     static readonly NO_CONTENT = 204;
+
     //client error code
     /** Code 400 */
     static readonly BAD_REQUEST = 400;
@@ -27,6 +28,7 @@ export class StatusCode {
     static readonly IM_A_TEAPOT = 418;
     /** Code 422 */
     static readonly UNPROCESSABLE_CONTENT = 422;
+
     //server error code
     /** Code 500 */
     static readonly INTERNAL_ERROR = 500;

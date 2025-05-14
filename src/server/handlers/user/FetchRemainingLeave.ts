@@ -1,4 +1,3 @@
-import { user } from "db-src/entity/entities/user";
 import type { DataSource, Repository } from "typeorm";
 import type { UseCase } from "../UseCase";
 import { FetchUserByCriteria } from "./FetchUserByCriteria";

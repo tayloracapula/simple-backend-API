@@ -46,7 +46,7 @@ export class RegisterNewUser implements UseCase {
             newUser.department = await departmentPromise;
 
 
-            if (userData.role === "Manager" && !userData.managerID) {
+            if ((userData.role === "Manager"|| userData.role === "Admin") && !userData.managerID) {
                 newUserManagement.manager = newUser;
             }else if (!userData.managerID && userData.role != "Manager") {
                 throw new Error("User must be a manager to manage themselves");

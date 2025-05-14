@@ -1,7 +1,7 @@
 import type { Context } from "hono";
 
 export function parseID(c: Context): number {
-    const IdParam = c.req.param("id");
+    const IdParam = c.req.query("id");
     if (!IdParam) {
         throw new Error("ID is required");
     }

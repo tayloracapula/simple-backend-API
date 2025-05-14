@@ -30,6 +30,7 @@ export class AdminRoutes extends BaseRoute {
         const userController = new UserController(dataSource);
         const departmentController = new DepartmentController(dataSource);
         const bookingTypeController = new BookingTypeController(dataSource);
+
         new RouteRegistry(adminGroup,dataSource)
            .register(UserGetRouteHandler,userController)
            .register(UserPostRouteHandler,userController)

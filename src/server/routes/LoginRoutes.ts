@@ -3,6 +3,7 @@ import type { DataSource } from "typeorm";
 import { BaseRoute } from "./baseRoute";
 import { LoginController } from "server/controllers/LoginController";
 import { RouteRegistry } from "./RouteRegistry";
+import { LoginPostHandler } from "./RouteHandlers/Login/LoginPostHandler";
 
 export class LoginRoutes extends BaseRoute {
     getBasePath(): string {
@@ -13,6 +14,8 @@ export class LoginRoutes extends BaseRoute {
         const loginController = new LoginController(dataSource)
         
         new RouteRegistry(app,dataSource)
+            .register(LoginPostHandler,loginController)
+            .registerAll(); 
 
         this.handle404(loginGroup);
 

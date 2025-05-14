@@ -17,7 +17,7 @@ export class ManagerLeavePatchHandler extends RouteHandler {
     private async approveDenyBooking(c:Context){
         try {
             const bookingId = parseID(c);
-            const shouldApprove = c.req.param("approve") === "true";
+            const shouldApprove = c.req.query("approve") === "true";
             const result = await this.leaveBookingController.approveDenyBooking(bookingId,shouldApprove);
             return c.json(result,StatusCode.OK);
         } catch (error) {

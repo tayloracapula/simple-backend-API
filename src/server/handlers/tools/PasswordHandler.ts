@@ -4,8 +4,8 @@ export class PasswordHandler {
     static async hashPassword(password:string):Promise<string>{
         const hash = Bun.password.hash(password,{
             algorithm:"argon2id",
-            memoryCost:10,
-            timeCost: 5,
+            memoryCost:50,
+            timeCost: 10,
         });
         
         return hash;
