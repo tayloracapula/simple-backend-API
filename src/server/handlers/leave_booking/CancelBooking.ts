@@ -20,7 +20,7 @@ export class CancelBooking implements UseCase {
             const cancelled = await new FetchAcceptanceStatusByCriteria(this.dataSource).execute("Cancelled")
             bookingToCancel.status = cancelled;
 
-            this.repository.save(bookingToCancel);
+            await this.repository.save(bookingToCancel);
             return{
                 success: true,
                 message: "Booking successfully changed",

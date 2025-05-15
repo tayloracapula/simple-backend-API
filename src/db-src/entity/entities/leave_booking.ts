@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, type Relation } from "typeorm";
 import { user } from "./user.ts";
 import { acceptance_status } from "../staticEntities/acceptance_status.ts";
 import { booking_type } from "../staticEntities/booking_type.ts";
@@ -12,7 +12,7 @@ export class leave_booking {
 
     @ManyToOne(() => user)
     @JoinColumn({name:"user_id"})
-    user!: user;
+    user!: Relation<user>;
 
     @ManyToOne(() => booking_type)
     @JoinColumn({name: "booking_type"})

@@ -22,6 +22,7 @@ export class FetchBookingsForUser implements UseCase {
             const userBookings = userResult.data[0].leave_bookings;
             return{
                 success: true,
+                count: userBookings.length,
                 data: userBookings
             }
         } catch (error) {

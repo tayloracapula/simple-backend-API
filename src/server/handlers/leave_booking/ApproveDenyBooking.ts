@@ -25,7 +25,7 @@ export class ApproveDenyBooking implements UseCase {
                 bookingToApprove.status = refused
             }
 
-            this.repository.save(bookingToApprove);
+            await this.repository.save(bookingToApprove);
 
             return{
                 success: true,
