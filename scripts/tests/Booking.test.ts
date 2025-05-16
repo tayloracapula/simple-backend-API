@@ -144,5 +144,39 @@ describe("Add Booking Implementation", () => {
         const cancelBooking = await leaveBookingController.cancelBooking(1);
         expect(cancelBooking.success).toBe(true)
         expect(cancelBooking.data.status.status).toBe("Cancelled");
+    });
+
+    it('Test 5: Should reject booking with start date before end date', async () => {
+        
+        const invalidBooking: NewBookingData = {
+            start_date: new Date("2035-05-25"),
+            end_date: new Date("2035-5-15"),
+            user_id: 2,
+            booking_type: "Annual_Leave"
+        }
+
+        try {
+            await leaveBookingController.addBooking(invalidBooking);
+            expect(true).toBe(false);
+        } catch (error) {
+            expect((error as Error).message).toContain("date");
+        }
+    });
+
+    it('Test 6: Should reject booking exceeding available leave balance', async () => {
+        
+        const tooLongBooking: NewBookingData = {
+            start_date: new Date("2035-06-01"),
+            end_date: new Date("2035-07-15"),
+            user_id: 2,
+            booking_type: "Annual_Leave"
+        };
+
+        try {
+            await leaveBookingController.addBooking(tooLongBooking)
+            expect(true).toBe(false)
+        } catch (error) {
+            expect((error as Error).message).toContain("Insuficcient")
+        }
     })
 });
