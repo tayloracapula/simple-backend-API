@@ -19,6 +19,7 @@ import { BookingTypeGetHandler } from "./RouteHandlers/BookingType/BookingTypeGe
 import { BookingTypeController } from "server/controllers/BookingTypeController";
 import { BookingTypeDeleteHandler } from "./RouteHandlers/BookingType/BookingTypeDeleteHandler";
 import { BookingTypePostHandler } from "./RouteHandlers/BookingType/BookingTypePostHandler";
+import { requiredRole } from "server/ServerMiddleware/RequiredRole";
 
 export class AdminRoutes extends BaseRoute {
     getBasePath(): string {
@@ -30,6 +31,8 @@ export class AdminRoutes extends BaseRoute {
         const userController = new UserController(dataSource);
         const departmentController = new DepartmentController(dataSource);
         const bookingTypeController = new BookingTypeController(dataSource);
+        
+        adminGroup.use(requiredRole('Admin'))
 
         new RouteRegistry(adminGroup,dataSource)
            .register(UserGetRouteHandler,userController)

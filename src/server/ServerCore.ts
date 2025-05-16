@@ -23,7 +23,7 @@ export class ServerCore extends DatabaseManager {
         this.app.use(logger())
         //Custom middleware
         this.app.use(JSONValidate);
-        //this.app.use(JWTAuth);
+        this.app.use(JWTAuth);
         this.port = port;
         this.routeManager = new RouteManager();
     }

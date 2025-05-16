@@ -5,6 +5,7 @@ import { LeaveBookingController } from "server/controllers/LeaveBookingControlle
 import { RouteRegistry } from "./RouteRegistry";
 import { ManagerLeaveGetRouteHandler } from "./RouteHandlers/Leave/ManagerSpecific/ManagerLeaveGetHandler";
 import { ManagerLeavePatchHandler } from "./RouteHandlers/Leave/ManagerSpecific/ManagerLeavePatchHandler";
+import { requiredRole } from "server/ServerMiddleware/RequiredRole";
 
 export class ManagerRoutes extends BaseRoute {
     getBasePath(): string {
@@ -13,6 +14,8 @@ export class ManagerRoutes extends BaseRoute {
     registerRoutes(app: Hono, dataSource: DataSource): void {
         const managerGroup = new Hono()
         const leaveBookingController = new LeaveBookingController(dataSource);
+
+        managerGroup.use(requiredRole(['Admin','Manager']))
 
         new RouteRegistry(managerGroup,dataSource)
             .register(ManagerLeaveGetRouteHandler,leaveBookingController)

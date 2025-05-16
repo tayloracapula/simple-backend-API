@@ -9,7 +9,7 @@ export async function JWTAuth(c:Context, next:Next) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
     if (c.req.path.endsWith('/login')){
-        return next();
+        await next();
     }
 
     const authHeader = c.req.header('Authorization');
@@ -24,7 +24,8 @@ export async function JWTAuth(c:Context, next:Next) {
 
     try {
         const {payload} = await jose.jwtVerify(authToken,secret)
-        c.set('user', payload)
+        c.set('roleJWT', payload)
+        await next();
     } catch (error) {
         return c.json({
             success: false,

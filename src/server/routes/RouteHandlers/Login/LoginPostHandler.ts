@@ -13,7 +13,7 @@ export class LoginPostHandler extends RouteHandler {
         this.loginController = loginController;
     }
     registerRoutes(): void {
-        
+        this.app.post("",this.login.bind(this))
     }
 
     private async login(c:Context){

@@ -20,8 +20,8 @@ export class RouteManager implements IRouteManager {
 
     registerAllRoutes(app:Hono, dataSource: DataSource) {
         for (const route of this.routes) {
-            Logger.debug(`Registered route: ${route.getBasePath()}`)
             route.registerRoutes(app, dataSource);
+            Logger.debug(`Registered route: ${route.getBasePath()}`)
         }
     }
 }
