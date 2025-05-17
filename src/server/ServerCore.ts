@@ -9,6 +9,7 @@ import { JSONValidate } from "./ServerMiddleware/JSONValidate";
 import { JWTAuth } from "./ServerMiddleware/JWTAuth";
 import { obfuscareHeaders } from "./ServerMiddleware/ObfuscateHeaders";
 import { rateLimiter } from "hono-rate-limiter";
+import { createRateLimiterConfig } from "./ServerMiddleware/createRateLimiterConfig";
 
 export class ServerCore extends DatabaseManager {
     app: Hono;
@@ -29,23 +30,7 @@ export class ServerCore extends DatabaseManager {
         this.app.use(JSONValidate);
         this.app.use(JWTAuth);
         this.app.use(
-            rateLimiter({
-                windowMs: 15 * 60 * 1000,
-                limit: 100,
-                standardHeaders: "draft-6",
-                keyGenerator: (c) => {
-                    const jwtPayload = c.get("roleJWT" as any);
-                    if (jwtPayload?.user_id) {
-                        return `user-${jwtPayload.user_id}`;
-                    }
-
-                    return (
-                        c.req.header("x-forwarded-for") ||
-                        c.req.header("x-real-ip") ||
-                        "unknown"
-                    );
-                },
-            })
+            rateLimiter(createRateLimiterConfig())
         );
         this.app.use(obfuscareHeaders);
 
