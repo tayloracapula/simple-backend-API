@@ -4,7 +4,6 @@ import { UserRelationshipLevel, getRelationshipLevelFromString } from "server/ha
 import { UserController } from "server/controllers/UserController";
 import type { UserSearchCriteria } from "server/handlers/user/FetchUserByCriteria";
 import { StatusCode } from "server/StatusCodes";
-import { parseID } from "../IdParsing";
 
 export class UserGetRouteHandler extends RouteHandler{
     private userController: UserController
@@ -15,7 +14,6 @@ export class UserGetRouteHandler extends RouteHandler{
     registerRoutes(): void {
         this.app.get("/users",this.fetchAllUsers.bind(this));
         this.app.get("/search-users",this.searchUsers.bind(this));
-        this.app.get("/remaining-leave",this.fetchUserRemainingLeave.bind(this));
     }
 
     private async fetchAllUsers(c:Context) {
@@ -51,16 +49,4 @@ export class UserGetRouteHandler extends RouteHandler{
                return this.handleError(error,"Failed to search users",c)
             }
     }
-
-    private async fetchUserRemainingLeave(c:Context){
-        try {
-            const userId = parseID(c);
-
-            const result = await this.userController.fetchRemainingLeave(userId);
-            return c.json(result,StatusCode.OK);
-        } catch (error) {
-            return this.handleError(error,"Failed to retrieve Leave",c)
-        }
-    }
-
 }

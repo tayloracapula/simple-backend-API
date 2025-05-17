@@ -12,6 +12,7 @@ export class UserPatchRouteHandler extends RouteHandler {
     }
     registerRoutes(): void {
        this.app.patch("/edit-user",this.editUser.bind(this)) 
+       this.app.patch("/reset-leave",this.resetLeave.bind(this))
     }
 
     private async editUser(c:Context){
@@ -22,6 +23,18 @@ export class UserPatchRouteHandler extends RouteHandler {
             return c.json(result,StatusCode.OK)
         } catch (error) {
            return this.handleError(error,"Failed to edit User",c) 
+        }
+    }
+
+    private async resetLeave(c:Context){
+        try {
+            const result = await this.userController.resetAnnualLeave();
+            return c.json({
+                success: true,
+                message: "Annual leave reset for all users"
+            })
+        } catch (error) {
+            return this.handleError(error, "Failed to reset Leave",c)
         }
     }
 }

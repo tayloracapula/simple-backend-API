@@ -1,3 +1,4 @@
+import { ResetLeave } from "server/handlers/user/ResetLeave";
 import {
     FetchAllUsers,
     FetchUserByCriteria,
@@ -48,5 +49,10 @@ export class UserController {
     async editUser(updatedUserData: NewUserData, userId: number) {
         const userEditor = new EditUser(this.dataSource);
         return await userEditor.execute({ ...updatedUserData, id: userId });
+    }
+
+    async resetAnnualLeave(){
+        const userEditor = new ResetLeave(this.dataSource);
+        return await userEditor.execute();
     }
 }
