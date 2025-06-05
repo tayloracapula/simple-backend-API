@@ -4,7 +4,6 @@ import { BaseRoute } from "./baseRoute";
 import { LoginController } from "server/controllers/LoginController";
 import { RouteRegistry } from "./RouteRegistry";
 import { LoginPostHandler } from "./RouteHandlers/Login/LoginPostHandler";
-import { Logger } from "server/Logger";
 
 export class LoginRoutes extends BaseRoute {
     getBasePath(): string {

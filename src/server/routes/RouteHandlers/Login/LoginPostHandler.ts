@@ -29,21 +29,25 @@ export class LoginPostHandler extends RouteHandler {
             }
             const result = await this.loginController.verifyUser(loginData);
 
-            const secret = new TextEncoder().encode(process.env.JWT_SECRET)
-            const alg = 'HS256'
-            const jwt =  await new jose.SignJWT(result)
-                .setProtectedHeader({alg})
-                .setIssuedAt()
-                .setIssuer('leave-management:api')
-                .setAudience('leave-management:frontend')
-                .setExpirationTime('8h')
-                .sign(secret)
-            return c.json({
-                success: true,
-                jwt: jwt
-            })
+            if (result.success !== false) {
+                const secret = new TextEncoder().encode(process.env.JWT_SECRET)
+                const alg = 'HS256'
+                const jwt =  await new jose.SignJWT(result)
+                    .setProtectedHeader({alg})
+                    .setIssuedAt()
+                    .setIssuer('leave-management:api')
+                    .setAudience('leave-management:frontend')
+                    .setExpirationTime('8h')
+                    .sign(secret)
+                return c.json({
+                    success: true,
+                    jwt: jwt
+                })
+            }else {
+                return c.json(result,StatusCode.BAD_REQUEST);
+            }
         } catch (error) {
-            
+            return this.handleError(error,"Login authorization failed",c)
         }
     }
 }

@@ -22,7 +22,7 @@
     "scripts": {
         "start": "bun src/index.ts",
         "resetdb": "bun scripts/reset-db.ts",
-        "debug": "DEBUG=true  bun src/index.ts",
+        "debug": "DEBUG=true  bun --hot src/index.ts",
         "debugwatch": "DEBUG=true --watch src/index.ts"
     }
 }

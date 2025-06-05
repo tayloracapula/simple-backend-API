@@ -6,6 +6,7 @@ import { AdminRoutes } from "server/routes/adminRoutes";
 import { ManagerRoutes } from "server/routes/managerRoutes";
 import { Logger } from "server/Logger";
 import { LoginRoutes } from "server/routes/LoginRoutes";
+import { ViewRoutes } from "server/routes/ViewRoutes";
 
 const defaultPort = 8080;
 const defaultDbName = "./db/api.sqlite";
@@ -37,6 +38,7 @@ Logger.debug("Beginning server creation")
 const server = new ServerCore(port, dbName);
 Logger.debug("Adding Routes")
 server.getRouteManager()
+    .addRoute(new ViewRoutes())
     .addRoute(new LoginRoutes())
     .addRoute(new AdminRoutes())
     .addRoute(new ManagerRoutes())

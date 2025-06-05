@@ -10,6 +10,7 @@ import { JWTAuth } from "./ServerMiddleware/JWTAuth";
 import { obfuscareHeaders } from "./ServerMiddleware/ObfuscateHeaders";
 import { rateLimiter } from "hono-rate-limiter";
 import { createRateLimiterConfig } from "./ServerMiddleware/createRateLimiterConfig";
+import { serveStatic } from "hono/bun";
 
 export class ServerCore extends DatabaseManager {
     app: Hono;
@@ -24,8 +25,8 @@ export class ServerCore extends DatabaseManager {
         this.app.use(prettyJSON());
         this.app.use(timing());
         this.app.use(logger());
-        //third party middleware
-
+        this.app.use('/static/*',serveStatic({root: './'}))
+        this.app.use('/favicon.ico', serveStatic({path: './favicon.ico'}))
         //Custom middleware
         this.app.use(JSONValidate);
         this.app.use(JWTAuth);
