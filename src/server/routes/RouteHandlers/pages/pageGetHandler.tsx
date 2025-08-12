@@ -16,7 +16,7 @@ export class PageGetHandler extends RouteHandler {
         try {
             return c.html(<HomePage />);
         } catch (error) {
-            return this.handleError(error, "shit broke", c);
+            return this.handleError(error, "Failed to serve home page", c);
         }
     }
 }
