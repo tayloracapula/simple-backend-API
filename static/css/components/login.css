@@ -1,0 +1,5 @@
+.login-box {
+    background-color: rgb(255, 0, 0);
+    flex-direction: column;
+    align-items: center;
+}
