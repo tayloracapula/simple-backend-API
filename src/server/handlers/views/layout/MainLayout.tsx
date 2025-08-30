@@ -2,9 +2,10 @@ type Props = {
     title: string;
     children: any;
     cssFiles?: string[];
+    sidebar?: any;
 };
 
-export function MainLayout({title,children,cssFiles}: Props) {
+export function MainLayout({title,children,cssFiles,sidebar}: Props) {
     return (
         <html lang="en">
             <head>
@@ -22,7 +23,23 @@ export function MainLayout({title,children,cssFiles}: Props) {
 		))}
             </head>
             <body class={title}>
-                {children}
+                <button 
+		    class="mobile-menu-toggle" 
+		    hx-post="/script/toggle-menu" 
+		    hx-target="body" 
+		    hx-swap="beforeend">
+		    ☰
+		</button>
+		<div class="layout-container">
+		    {sidebar && (
+			<aside class="sidebar">
+			    {sidebar}
+			</aside>
+		    )}
+		    <main class="main-content">
+			{children}
+		    </main>
+		</div>
             </body>
         </html>
     );
