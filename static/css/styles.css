@@ -23,3 +23,13 @@
     flex-direction: column;
     align-items: center;
 }
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left:-300;
+    width: 300;
+    height: 100vh;
+    transition: left 0.2s ease;
+
+}

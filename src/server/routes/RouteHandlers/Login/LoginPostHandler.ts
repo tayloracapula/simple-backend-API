@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import type { LoginController } from "server/controllers/LoginController";
 import { RouteHandler } from "../RouteHandler";
 import type { Context, Hono } from "hono";
+import { setCookie } from "hono/cookie";
 import { parseLoginData } from "./ParseLoginData";
 import { StatusCode } from "server/StatusCodes";
 
@@ -39,9 +40,16 @@ export class LoginPostHandler extends RouteHandler {
                     .setAudience('leave-management:frontend')
                     .setExpirationTime('8h')
                     .sign(secret)
+		setCookie(c, 'authToken',jwt,{
+		    path:'/',
+		    httpOnly: true,
+		    sameSite:'Strict',
+		    maxAge: 28800
+		})
+
                 return c.json({
                     success: true,
-                    jwt: jwt
+                    jwt: jwt,
                 })
             }else {
                 return c.json(result,StatusCode.BAD_REQUEST);

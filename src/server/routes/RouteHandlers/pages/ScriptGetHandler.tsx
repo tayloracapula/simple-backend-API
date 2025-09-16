@@ -13,7 +13,4 @@ export class ScriptGetHandler extends RouteHandler {
     registerRoutes(): void {
         
     }
-
-
-
 }

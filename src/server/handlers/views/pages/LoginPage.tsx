@@ -1,4 +1,4 @@
-import { Login } from "../components/login";
+import { Login } from "../components/Login";
 import { MainLayout } from "../layout/MainLayout";
 
 export function LoginPage() {
