@@ -44,7 +44,7 @@ export class LoginPostHandler extends RouteHandler {
 		    path:'/',
 		    httpOnly: true,
 		    sameSite:'Strict',
-		    maxAge: 28800
+		    maxAge: 28800 //8hrs
 		})
 
                 return c.json({

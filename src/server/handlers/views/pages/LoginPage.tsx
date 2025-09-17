@@ -3,7 +3,11 @@ import { MainLayout } from "../layout/MainLayout";
 
 export function LoginPage() {
     return (
-        <MainLayout title="Home-Page" cssFiles={["login"]}>
+        <MainLayout 
+	    title="Home-Page" 
+	    cssFiles={["login"]}
+	    showMobileMenu={false}
+	>
             <h1>Leave Booking</h1>
             <div>sign in</div>
             <Login />

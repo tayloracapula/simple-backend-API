@@ -2,13 +2,32 @@
 export function Login() {
     return(
 	<div class="login-container">
-	    <h1>Leave Booking</h1>
 	    <form
 		class="login-form"
+		hx-post="/api/login"
+		hx-target="#login-result"
+		hx-swap="innerHTML"
+		hx-ext="json-enc"
 	    >
-		<input type="email" name="email" placeholder="Email" required />
-		<input type="password" name="password" placeholder="Password" required />
+		<div class="form-group">
+		    <input 
+			type="email" 
+			id="email"
+			name="email" 
+			placeholder="Email" 
+			required />
+		</div>
+		<div class="form-group">
+		    <input 
+			type="password" 
+			id="password"
+			name="password" 
+			placeholder="Password" 
+			required />
+		</div>
+		<button type="submit">Sign In </button>
 	    </form>
+	    <div id="login-result"></div>
 	</div>
-    )
+    );
 }

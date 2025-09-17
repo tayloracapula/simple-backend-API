@@ -3,9 +3,10 @@ type Props = {
     children: any;
     cssFiles?: string[];
     sidebar?: any;
+    showMobileMenu: boolean;
 };
 
-export function MainLayout({title,children,cssFiles,sidebar}: Props) {
+export function MainLayout({title,children,cssFiles,sidebar,showMobileMenu=true}: Props) {
     return (
         <html lang="en">
             <head>
@@ -13,6 +14,7 @@ export function MainLayout({title,children,cssFiles,sidebar}: Props) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>{title}</title>
                 <script src="/static/js/htmx.min.js" ></script>
+		<script src="/static/js/json-enc.js"></script>
                 <link rel="stylesheet" href="/static/css/styles.css" />
 		{(cssFiles ?? []).map(cssFile => (
 		    <link
@@ -23,13 +25,15 @@ export function MainLayout({title,children,cssFiles,sidebar}: Props) {
 		))}
             </head>
             <body class={title}>
-                <button 
+		{showMobileMenu && (
+		<button 
 		    class="mobile-menu-toggle" 
 		    hx-post="/script/toggle-menu" 
 		    hx-target="body" 
 		    hx-swap="beforeend">
 		    ☰
 		</button>
+		)}
 		<div class="layout-container">
 		    {sidebar && (
 			<aside class="sidebar">
@@ -40,6 +44,7 @@ export function MainLayout({title,children,cssFiles,sidebar}: Props) {
 			{children}
 		    </main>
 		</div>
+		<script src="/static/js/auth-utils.js"></script>
             </body>
         </html>
     );

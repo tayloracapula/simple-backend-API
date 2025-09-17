@@ -28,6 +28,8 @@ export class VerifyUser implements UseCase{
 
             if (correctPassword) {
                 return {
+		    userfirstname: user.firstname,
+		    userlastname: user.lastname,
                     user_id: user.user_id,
                     role: user.role.role,
                 }

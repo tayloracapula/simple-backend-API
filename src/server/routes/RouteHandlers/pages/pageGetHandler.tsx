@@ -1,10 +1,12 @@
 /** @jsx jsx */
 /** @jsxImportSource hono/jsx */
+import * as jose from "jose";
 import type { Context, Hono } from "hono";
-import { getCookie } from "hono/cookie";
+import { getCookie, deleteCookie } from "hono/cookie";
 import { RouteHandler } from "../RouteHandler";
 import { LoginPage } from "server/handlers/views/pages/LoginPage";
 import { Dashboard } from "server/handlers/views/pages/Dashboard";
+import { getUserData } from "server/helpers/JWTDecode"
 
 export class PageGetHandler extends RouteHandler {
     constructor(app: Hono) {
@@ -20,13 +22,14 @@ export class PageGetHandler extends RouteHandler {
 	const token = getCookie(c, 'authToken');
 	if(token){
 	    try {
-	    	
-	    } catch (e) {
-	    	/* handle error */
+		const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+		await jose.jwtVerify(token,secret);
+		return c.redirect('/dashboard');
+	    } catch (error) {
+		deleteCookie(c,'authToken')
 	    }
 	}
 	return c.redirect('/login')
-
     }
 
     private async login(c: Context) {
@@ -39,6 +42,13 @@ export class PageGetHandler extends RouteHandler {
 
     private async dashboard(c:Context) {
 	try {
+	    let user = await getUserData(c)
+	    return c.html(<Dashboard
+		userId={user.user_id}
+		userFirstname={user.userfirstname}
+		userLastname={user.userlastname}
+		userRole={user.role as 'user' | 'manager' | 'admin'}
+	    />)
 		
 	} catch (error) {
 	    return this.handleError(error, "Failed to serve Dashboard", c);
