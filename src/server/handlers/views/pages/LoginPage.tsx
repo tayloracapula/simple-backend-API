@@ -4,7 +4,7 @@ import { MainLayout } from "../layout/MainLayout";
 export function LoginPage() {
     return (
         <MainLayout 
-	    title="Home-Page" 
+	    title="Login" 
 	    cssFiles={["login"]}
 	    showMobileMenu={false}
 	>

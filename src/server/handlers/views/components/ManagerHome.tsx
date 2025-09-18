@@ -1,9 +1,9 @@
 import type { ComponentProps } from "./tools"
 
-export function UserHome({userId}:ComponentProps) {
+export function ManagerHome({userId}:ComponentProps){
     return(
     <div class="home-container">
-	user {userId}
+	manager {userId}
     </div>
     )
 }

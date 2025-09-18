@@ -1,11 +1,11 @@
 interface NavItem  {
     href: string;
+    hxGet: string;
     label: string;
-    htmxTarget: string;
 }
 
 interface SidebarProps {
-    userRole: 'user'|'manager'|'admin';
+    userRole: 'User'|'Manager'|'Admin';
     userName: string;
 }
 
@@ -14,39 +14,39 @@ export function Sidebar({userRole,userName}:SidebarProps) {
     const baseNav: NavItem[] = [
 	{
 	    href: "/dashboard/home",
+	    hxGet:"/fragment/dashboard/home",
 	    label: "Home",
-	    htmxTarget: "dashboard-content"
 	},
 	{
 	    href: "/dashboard/new-booking",
+	    hxGet:"/fragment/dashboard/new-booking",
 	    label: "New Booking",
-	    htmxTarget: "dashboard-content"
 	},
 	{
 	    href: "/dashboard/my-bookings",
+	    hxGet: "/fragment/dashboard/my-bookings",
 	    label: "My Bookings",
-	    htmxTarget: "dashboard-content"
 	}
     ];
 
     const managerNav: NavItem[] = [
 	{
 	    href: "/dashboard/team-bookings",
+	    hxGet: "/fragment/dashboard/team-bookings",
 	    label: "Team Bookings",
-	    htmxTarget: "dashboard-content"
 	},
 	{
 	    href: "/dashboard/manage-bookings",
+	    hxGet: "/fragment/dashboard/manage-bookings",
 	    label: "Manage Bookings",
-	    htmxTarget: "dashboard-content"
 	}
     ];
 
     const adminNav: NavItem[] = [
 	{
 	    href: "/dashboard/admin",
-	    label: "Admin Panel",
-	    htmxTarget: "dashboard-content"
+	    hxGet: "/fragment/dashboard/admin",
+	    label: "Admin Portal",
 	}
     ]
 
@@ -63,25 +63,27 @@ export function Sidebar({userRole,userName}:SidebarProps) {
 			<a
 			    href={item.href}
 			    class="nav-link"
-			    hx-get={item.href}
-			    hx-target={item.htmxTarget}
+			    hx-get={item.hxGet}
+			    hx-target="#dashboard-content"
 			    hx-swap= "innerHTML"
+			    hx-push-url={item.href}
 			>
 			    {item.label}
 			</a>
 		    </li>
 		))}
 	    </ul>
-	    {(userRole == 'manager' || userRole == 'admin') && (
-		<ul>
+	    {(userRole == 'Manager' || userRole == 'Admin') && (
+		<ul class="nav-section">
 		    {managerNav.map(item => (
 			<li key={item.href}>
 			    <a
 				href={item.href}
 				class="nav-link"
-				hx-get={item.href}
-				hx-target={item.htmxTarget}
+				hx-get={item.hxGet}
+				hx-target="#dashboard-content"
 				hx-swap= "innerHTML"
+				hx-push-url={item.href}
 			    >
 				{item.label}
 			    </a>
@@ -89,16 +91,17 @@ export function Sidebar({userRole,userName}:SidebarProps) {
 		    ))}
 		</ul>
 	    )}
-	    {userRole == 'admin' && (
-		<ul>
+	    {userRole == 'Admin' && (
+		<ul class="nav-section">
 		    {adminNav.map(item => (
 			<li key={item.href}>
 			    <a
 				href={item.href}
 				class="nav-link"
-				hx-get={item.href}
-				hx-target={item.htmxTarget}
+				hx-get={item.hxGet}
+				hx-target="#dashboard-content"
 				hx-swap= "innerHTML"
+				hx-push-url={item.href}
 			    >
 				{item.label}
 			    </a>

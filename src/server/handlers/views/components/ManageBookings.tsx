@@ -1,9 +1,9 @@
 import type { ComponentProps } from "./tools"
 
-export function MyBookings({userId}:ComponentProps){
+export function ManageBookings({userId}:ComponentProps){
     return(
     <div>
-	Mybookings {userId}
+	Managebookings {userId}
     </div>
     )
 }

@@ -3,6 +3,7 @@ import * as jose from 'jose'
 import type { Context, Next} from 'hono';
 import { getCookie,deleteCookie } from 'hono/cookie';
 import { StatusCode } from 'server/StatusCodes';
+import { Logger } from 'server/Logger';
 
 const PUBLIC_ROUTES = [
     '/',
@@ -32,6 +33,7 @@ export async function JWTAuth(c:Context, next:Next) {
 
     if (isPublicRoute(c.req.path)) {
         await next();
+	return;
     }
 
     const authHeader = c.req.header('Authorization');
@@ -47,7 +49,7 @@ export async function JWTAuth(c:Context, next:Next) {
 	const acceptHeader = c.req.header('accept') || '';
 	const isPageRequest = acceptHeader.includes('text/html');
 	if (isPageRequest) {
-	    return c.redirect('/login?error=no-session')
+	    return c.redirect('/login')
 	} else{
 	    return c.json({
 		success:false,
@@ -60,13 +62,16 @@ export async function JWTAuth(c:Context, next:Next) {
     try {
         const {payload} = await jose.jwtVerify(authToken,secret)
         c.set('roleJWT', payload)
+	Logger.debug(`JWT auth successful ${JSON.stringify(payload)}`)
         await next();
     } catch (error) {
+	Logger.debug(`auth error ${error}`)
 	const acceptHeader = c.req.header('accept') || '';
 	const isPageRequest = acceptHeader.includes('text/html');
 	if (isPageRequest){
 	    deleteCookie(c, 'authToken');
-	    return c.redirect('/login?error=no-session')
+	    Logger.debug('auth failed redirect to login')
+	    return c.redirect('/login')
 	}else{
 	    return c.json({
 		success: false,

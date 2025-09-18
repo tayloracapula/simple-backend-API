@@ -43,7 +43,7 @@ export class LoginPostHandler extends RouteHandler {
 		setCookie(c, 'authToken',jwt,{
 		    path:'/',
 		    httpOnly: true,
-		    sameSite:'Strict',
+		    sameSite:'Lax',
 		    maxAge: 28800 //8hrs
 		})
 
