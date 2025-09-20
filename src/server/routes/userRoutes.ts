@@ -9,6 +9,8 @@ import { LeavePostRouteHandler } from "./RouteHandlers/Leave/LeavePostHandler";
 import { requiredRole } from "server/ServerMiddleware/RequiredRole";
 import { UserSpecificGetRouteHandler } from "./RouteHandlers/User/UserSpecific/UserSpecificGetHandler";
 import { UserController } from "server/controllers/UserController";
+import { BookingTypeController } from "server/controllers/BookingTypeController";
+import { BookingTypeGetHandler } from "./RouteHandlers/BookingType/BookingTypeGetHandler";
 
 export class UserRoutes extends BaseRoute {
     getBasePath(): string {
@@ -18,6 +20,7 @@ export class UserRoutes extends BaseRoute {
         const userGroup = new Hono()
         const leaveBookingController = new LeaveBookingController(dataSource);
         const userController = new UserController(dataSource);
+	const bookingTypeController = new BookingTypeController(dataSource);
         userGroup.use(requiredRole(['User','Manager','Admin']))
 
         new RouteRegistry(userGroup,dataSource)
@@ -25,6 +28,7 @@ export class UserRoutes extends BaseRoute {
             .register(UserLeavePatchHandler,leaveBookingController)
             .register(LeavePostRouteHandler,leaveBookingController)
             .register(UserSpecificGetRouteHandler,userController)
+	    .register(BookingTypeGetHandler,bookingTypeController)
             .registerAll()
 
         this.handle404(userGroup);

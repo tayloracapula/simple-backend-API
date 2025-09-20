@@ -15,6 +15,7 @@ export function MainLayout({title,children,cssFiles,sidebar,showMobileMenu=true}
                 <title>{title}</title>
                 <script src="/static/js/htmx.min.js" ></script>
 		<script src="/static/js/json-enc.js"></script>
+		<script src="/static/js/alpine.js"></script>
                 <link rel="stylesheet" href="/static/css/styles.css" />
 		{(cssFiles ?? []).map(cssFile => (
 		    <link
@@ -45,6 +46,13 @@ export function MainLayout({title,children,cssFiles,sidebar,showMobileMenu=true}
 		    </main>
 		</div>
 		<script src="/static/js/auth-utils.js"></script>
+		<script>
+		{`
+		    function toggleSidebar(){
+			document.querySelector('.sidebar').classList.toggle('active')
+		    }
+		`}
+		</script>
             </body>
         </html>
     );

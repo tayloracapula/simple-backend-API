@@ -18,7 +18,20 @@ export function Dashboard({userRole,userFirstname,userLastname,userId}:Dashboard
 	    sidebar={sidebar}
 	    showMobileMenu={true}
 	>
-	    <div class="dashboard-container">
+	    <div class="dashboard-container" x-data="dashboardState()">
+
+		<div x-show="notifications.length > 0" class="notifications">
+		    <template x-for="notification in notifications" x-key="notification.id">
+			<div class="notification"
+			    x-class="notification.type"
+			    x-show="notification.visible"
+			    x-transition>
+			</div>
+			<span x-text="notification.message"></span>
+			<button x-on:click="dismissNotification(notification.id)">x</button>
+		    </template>
+		</div>
+
 		<div id="dashboard-content" 
 		    class="dashboard-main"
 		    hx-get="/fragment/dashboard/home"
@@ -32,6 +45,7 @@ export function Dashboard({userRole,userFirstname,userLastname,userId}:Dashboard
 		</div>
 	    </div>
 	    <script src="/static/js/page-utils.js"></script>
+	    <script src="/static/js/components/dashboard-state.js"></script>
 	</MainLayout>
     )
 }

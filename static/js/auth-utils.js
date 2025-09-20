@@ -1,4 +1,4 @@
-class A {
+class Auth {
     constructor(){
 	this.s();
     }
@@ -16,24 +16,24 @@ class A {
 	    const response = JSON.parse(evt.detail.xhr.responseText);
 
 	    if (response.success) {
-	    	this.y('Login successful')
+	    	this.success('Login successful')
 		setTimeout(() =>{
 		    window.location.href = '/dashboard';
 		}, 100)
 	    }else {
-		this.n('Login failed');	
+		this.error('Login failed');	
 	    }
 	} catch (error) {
 	}
     }
     
-    y(message) {
+    success(message) {
 	document.getElementById('login-result').innerHTML = `<div class="success-message">${message}</div>`;
     }
 
-    n(message) {
+    error(message) {
 	document.getElementById('login-result').innerHTML = `<div class="error-message">${message}</div>`;
     }
 }
 
-new A();
+new Auth();
