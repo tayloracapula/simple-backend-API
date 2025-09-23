@@ -27,7 +27,7 @@ export function Dashboard({userRole,userFirstname,userLastname,userId,currentPat
     return(
 	<MainLayout 
 	    title = "Dashboard"
-	    cssFiles={["dashboard"]}
+	    cssFiles={["dashboard","calendar"]}
 	    sidebar={sidebar}
 	    showMobileMenu={true}
 	>
@@ -35,6 +35,7 @@ export function Dashboard({userRole,userFirstname,userLastname,userId,currentPat
 	<script src="/static/js/components/dashboard-state.js"></script>
 	<script src="/static/js/page-utils.js"></script>
 	<script src="/static/js/components/booking-form.js"></script>
+	<script src="/static/js/components/calendar-state.js"></script>
 	    <div class="dashboard-container" x-data="dashboardState()" >
 
 		<div x-show="notifications.length > 0" class="notifications">
