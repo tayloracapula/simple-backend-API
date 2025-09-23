@@ -15,7 +15,7 @@ export function MainLayout({title,children,cssFiles,sidebar,showMobileMenu=true}
                 <title>{title}</title>
                 <script src="/static/js/htmx.min.js" ></script>
 		<script src="/static/js/json-enc.js"></script>
-		<script src="/static/js/alpine.js"></script>
+		<script defer src="/static/js/alpine.js"></script>
                 <link rel="stylesheet" href="/static/css/styles.css" />
 		{(cssFiles ?? []).map(cssFile => (
 		    <link

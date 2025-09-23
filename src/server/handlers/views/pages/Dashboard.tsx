@@ -6,10 +6,23 @@ type DashboardProps = {
     userFirstname: string;
     userLastname: string;
     userId: number;
+    currentPath: string;
 };
 
-export function Dashboard({userRole,userFirstname,userLastname,userId}:DashboardProps) {
+export function Dashboard({userRole,userFirstname,userLastname,userId,currentPath}:DashboardProps) {
     const sidebar = <Sidebar userRole={userRole} userName={`${userFirstname} ${userLastname}`}/>
+
+    const getFragmentPath = (path:string) =>{
+	if (path == '/dashboard') {
+	    return "fragment/dashboard/home"
+	};
+	if (path.startsWith("/dashboard")) {
+	    return `/fragment${path}`
+	};
+	return "/fragment/dashboard/home"
+    }
+
+    const fragmentPath = getFragmentPath(currentPath || '/dashboard/home');
 
     return(
 	<MainLayout 
@@ -18,7 +31,11 @@ export function Dashboard({userRole,userFirstname,userLastname,userId}:Dashboard
 	    sidebar={sidebar}
 	    showMobileMenu={true}
 	>
-	    <div class="dashboard-container" x-data="dashboardState()">
+
+	<script src="/static/js/components/dashboard-state.js"></script>
+	<script src="/static/js/page-utils.js"></script>
+	<script src="/static/js/components/booking-form.js"></script>
+	    <div class="dashboard-container" x-data="dashboardState()" >
 
 		<div x-show="notifications.length > 0" class="notifications">
 		    <template x-for="notification in notifications" x-key="notification.id">
@@ -34,18 +51,16 @@ export function Dashboard({userRole,userFirstname,userLastname,userId}:Dashboard
 
 		<div id="dashboard-content" 
 		    class="dashboard-main"
-		    hx-get="/fragment/dashboard/home"
+		    hx-get={fragmentPath}
 		    hx-trigger="load"
 		    hx-swap="innerHTML"
-		    hx-push-url="/dashboard/home"
+		    hx-push-url={currentPath || "/dashboard/home"}
 		>
 		    <div class="loading-display">
 			<p>Loading ...</p>
 		    </div>
 		</div>
 	    </div>
-	    <script src="/static/js/page-utils.js"></script>
-	    <script src="/static/js/components/dashboard-state.js"></script>
 	</MainLayout>
     )
 }

@@ -64,6 +64,7 @@ export class PageGetHandler extends RouteHandler {
 		userFirstname={user.userfirstname}
 		userLastname={user.userlastname}
 		userRole={user.role as 'User' | 'Manager' | 'Admin'}
+		currentPath={c.req.path}
 	    />)
 		
 	} catch (error) {

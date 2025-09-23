@@ -1,8 +1,23 @@
+window.handleFragmentLoad = async function(event){
+    const currentPath = window.location.pathname;
+    const fragmentName = window.fragmentLoader.getFragmentNameFromPath(currentPath);
+    await window.fragmentLoader.loadScriptsForFragment(fragmentName);
+}
+
+
 function dashboardState() {
     return {
 	loading: false,
 	loadingMessage: '',
 	notifications: [],
+
+	async handleInitialLoad(){
+	    await this.handleFragmentLoad();
+	},
+
+	async handleFragmentLoad(event){
+	    return window.handleFragmentLoad(event);
+	},
 
 	setLoading(state,message =''){
 	    this.loading = state;

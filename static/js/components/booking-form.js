@@ -1,103 +1,69 @@
 function bookingForm(){
     return {
-	isOpen:false,
-	selectedType: null,
+	startDate: '',
+	endDate: '',
+	selectedBookingType:'',
 	bookingTypes: [],
-	loading: false,
-	error: '',
-	submitting: false,
-	dateError: '',
-	formData: {
-	    startDate:'',
-	    endDate:''
+	isSubmitting: false,
+	isLoading: true,
+	userId: null,
+	responseMessage: '',
+	responseStatus: '',
+
+	async init(){
+	    await this.fetchBookingTypes()
+	},
+
+	async fetchBookingTypes(){
+	    try {
+		this.isLoading = true;
+		const response = await fetch('/api/user/booking-types');
+		if (!response.ok) {
+		    throw new Error(`HTTP error status: ${response.status}`)
+		}
+	    	const result = await response.json();
+
+		if (result.success){
+		    this.bookingTypes = result.data;
+		}else{
+		    console.error('failed to fetch booking types')
+		}
+	    } catch (error) {
+		console.error('Error fetching booking types', error)
+	    } finally {
+		this.isLoading = false;
+	    }
+	},
+
+	handleResponse(event){
+	    this.isSubmitting = false;
+	    const responseText = event.detail.xhr.responseText;
+	    try {
+		const responseData = JSON.parse(responseText);
+		this.responseMessage = responseData.message;
+		this.responseStatus = responseData.success ? 'success' : 'error';
+	    	
+	    } catch (e) {
+		this.responseMessage = responseText;
+		this.responseStatus = event.detail.xhr.status === 200 ? 'success' : 'error';
+	    }
+
+	    if(this.responseStatus === 'success') {
+		this.startDate = '';
+		this.endDate = '';
+		this.selectedBookingType = '';
+	    }
+	},
+
+	get isValidDateRange() {
+	    return this.startDate && this.endDate && new Date(this.startDate) <= new Date(this.endDate)
 	},
 
 	get canSubmit() {
-	    return  this.selectedType &&
-		    this.formData.startDate &&
-		    this.formData.endDate &&
-		    !this.dateError &&
-		    !this.submitting
+	    return  this.selectedBookingType&&
+		    this.startDate &&
+		    this.endDate &&
+		    !this.isSubmitting
 	},
-	toggleDropdown(){
-	    this.isOpen = !this.isOpen;
-	    if (this.isOpen && this.bookingTypes.length === 0){
-		this.loadBookingTypes();
-	    }
-	},
-	closeDropdown(){
-	    this.isOpen = false;
-	},
-	selectType(type){
-	    this.selectedType = type;
-	    this.closeDropdown();
-	    console.log("selected type: ", type);
-	},
-	loadBookingTypes(){
-	    this.loading = true;
-	    this.error = '';
-	},
-	handleBookingTypes(event){
-	    try {
-                const response = JSON.parse(event.detail.xhr.responseText);
-                console.log('API Response:', response);
-                
-                if (response.success) {
-                    this.bookingTypes = response.data;
-                    console.log('Loaded booking types:', this.bookingTypes);
-                } else {
-                    this.error = 'Failed to load booking types';
-                }
-            } catch (e) {
-                console.error('Parse error:', e);
-                this.error = 'Failed to parse response';
-            } finally {
-                this.loading = false;
-            }
-	},
-	valiDates(){
-	    if (this.formData.startDate && this.formData.endDate){
-		const start = new Date(this.formData.startDate);
-		const end = new Date(this.formData.endDate);
-		if (end < start) {
-		    this.dateError = 'End date must be after start date'
-		}else {
-		    this.dateError = ''
-		}
-	    }
-	},
-	handleSubmitResponse(event){
-	    this.submitting = false;
-	    if (event.detail.xhr.status >= 200 && event.detail.xhr.status < 300) {
-		this.selectedType = null;
-		this.formData = {startDate:'',endDate:''}
-		this.isOpen = false;
-		this.dateError = '';
-		document.getElementById('booking-result').innerHTML = `
-		    <div class="success-message">
-			<h3>Booking Created Successfully.</h3>
-			<p>Your request has been submitted.</p>
-		    </div>
-		`;
-	    } else {
-		console.error('Booking failed', event.detail.xhr.responseText)
-		document.getElementById('booking-result').innerHTML = `
-		    <div class="error-message">
-			<h3>Booking Failed.</h3>
-			<p>Please check details and try again.</p>
-		    </div>
-		`;
-	    }
-	}
     }
 }
-
-function getCookie(name){
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`)
-    if (parts.length === 2) {
-	return parts.pop().split(';').shift();
-    }
-    return '';
-}
-window.getCookie = getCookie
