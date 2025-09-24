@@ -34,12 +34,7 @@ export function Sidebar({userRole,userName}:SidebarProps) {
 	    href: "/dashboard/team-bookings",
 	    hxGet: "/fragment/dashboard/team-bookings",
 	    label: "Team Bookings",
-	},
-	{
-	    href: "/dashboard/manage-bookings",
-	    hxGet: "/fragment/dashboard/manage-bookings",
-	    label: "Manage Bookings",
-	}
+	} 
     ];
 
     const adminNav: NavItem[] = [

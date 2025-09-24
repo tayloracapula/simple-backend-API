@@ -5,6 +5,7 @@ import { FetchUserByCriteria } from "../user/FetchUserByCriteria";
 import { UserRelationshipLevel } from "../user/UserRelationshipLevel";
 import { leave_booking } from "db-src/entity/entities/leave_booking";
 import { booking_type } from "db-src/entity/staticEntities/booking_type";
+import { maskPasswords } from "../tools/MaskPasswords";
 
 export class FetchManagerPendingBookings implements UseCase {
     private dataSource: DataSource;
@@ -47,10 +48,15 @@ export class FetchManagerPendingBookings implements UseCase {
                 relations: ["user","booking_type","status"]
             });
 
+	    const safeBookings = pendingBookings.map(booking =>({
+		...booking,
+		user: maskPasswords([booking.user])[0]
+	    }))
+
             return{
                 success: true,
-                count: pendingBookings.length,
-                data: pendingBookings
+                count: safeBookings.length,
+                data: safeBookings 
             }
 
 

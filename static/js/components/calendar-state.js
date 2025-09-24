@@ -20,7 +20,7 @@ function calendarState() {
 		const result = await response.json();
 
 		if (result.success) {
-		    this.bookings= result.data;
+		    this.bookings= [...result.data];
 		}else{
 		    console.error(`Failed to fetch bookings ${result}`)
 		}
@@ -39,6 +39,9 @@ function calendarState() {
 	},
 
 	get calendarDays(){
+	    const bookingsLength = this.bookings.length;
+	    const isLoading = this.isLoading;
+
 	    const year = this.currentDate.getFullYear();
 	    const month = this.currentDate.getMonth();
 
@@ -59,6 +62,10 @@ function calendarState() {
 	    while (currentDateObj <= endDate) {
 		const dateString = currentDateObj.toISOString().split('T')[0];
 		const dayBookings = this.getBookingsForDate(dateString);
+		const hasBooking = dayBookings.length > 0;
+
+		if (dateString >= '2025-09-07' && dateString <= '2025-09-10') {
+		}
 
 		days.push({
 		    day: currentDateObj.getDate(),
@@ -66,7 +73,7 @@ function calendarState() {
 		    dateString: dateString,
 		    isCurrentMonth: currentDateObj.getMonth() === month,
 		    isToday: this.isToday(currentDateObj),
-		    hasBooking: dayBookings.length > 0,
+		    hasBooking: hasBooking,
 		    bookings: dayBookings,
 		    isSelected: dateString === selectedDateString
 		});
@@ -80,7 +87,16 @@ function calendarState() {
 	    return this.bookings.filter(booking => {
 		const startDate = booking.start_date;
 		const endDate = booking.end_date;
-		return dateString >= startDate && dateString <= endDate;
+		const adjustedStartDate = new Date(startDate);
+	        adjustedStartDate.setDate(adjustedStartDate.getDate() - 1);
+		const adjustedStartString = adjustedStartDate.toISOString().split('T')[0];
+		const adjustedEndDate = new Date(endDate);
+		adjustedEndDate.setDate(adjustedEndDate.getDate() - 1);
+		const adjustedEndString = adjustedEndDate.toISOString().split('T')[0];
+	    
+		const isInRange = dateString >= adjustedStartString && dateString <= adjustedEndString;
+
+		return isInRange;
 	    });
 	},
 

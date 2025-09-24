@@ -4,48 +4,51 @@ export function MyBookings({userId}:ComponentProps){
     return(
     <div x-data="calendarState()" x-init={`userId = ${Number(userId)}; fetchBookings()`}>
 	<div class="calendar-container">
-	    <div class="calendar-header">
-		<button x-on:click="previousMonth()" class="nav-btn">&lt;</button>
-		<h2 x-text="currentMonthYear"></h2>
-		<button x-on:click="nextMonth()" class="nav-btn">&gt;</button>
-	    </div>
-
-	    <div x-show="isLoading" class="loading-message">
-		Loading bookings...
-	    </div>
-	    
-	    <div x-show="!isLoading" class="calendar-grid">
-		<div class="calendar-days-header">
-		    <template x-for="day in dayHeaders" x-bind:key="day">
-			<div class="day-header" x-text="day"></div>
-		    </template>
+	    <div class="calendar">
+		<div class="calendar-header">
+		    <button x-on:click="previousMonth()" class="nav-btn">&lt;</button>
+		    <h2 x-text="currentMonthYear"></h2>
+		    <button x-on:click="nextMonth()" class="nav-btn">&gt;</button>
 		</div>
 
-		<div class="calendar-days">
-		    <template x-for="(day, index) in calendarDays" x-bind:key="`${currentDate.getFullYear()}-${currentDate.getMonth()}-${index}`">
-			<div class="calendar-day"
-			    x-bind:class="{
-				'other-month': !day.isCurrentMonth,
-				'today': day.isToday,
-				'has-booking': day.hasBooking,
-				'selected': day.isSelected
-			    }"
-			    x-on:click="selectDate(day)"
-			>
-			    <span class="day-number" x-text="day.day"></span>
-			    <div x-show="day.bookings.length > 0" class="booking-indicators">
-				<template x-for="booking in day.bookings" x-bind:key="booking.booking_id">
-				    <div class="booking-dot"
-					x-bind:class="[
-					booking.booking_type.booking_type.toLowerCase().replace('_','-'),
-					booking.status.status.toLowerCase()
-					]"
-					x-bind:title="`${booking.booking_type.booking_type.replace('_', ' ' )} - ${booking.status.status}`"
-				    ></div>
-				</template>
+		<div x-show="isLoading" class="loading-message">
+		    Loading bookings...
+		</div>
+		
+		<div x-show="!isLoading" class="calendar-grid">
+		    <div class="calendar-days-header">
+			<template x-for="day in dayHeaders" x-bind:key="day">
+			    <div class="day-header" x-text="day"></div>
+			</template>
+		    </div>
+
+		    <div class="calendar-days">
+			<template x-for="(day, index) in calendarDays" x-bind:key="`${currentDate.getFullYear()}-${currentDate.getMonth()}-${index}`">
+			    <div class="calendar-day"
+				x-bind:class="{
+				    'other-month': !day.isCurrentMonth,
+				    'today': day.isToday,
+				    'has-booking': day.hasBooking,
+				    'selected': day.isSelected
+				}"
+				x-on:click="selectDate(day)"
+				x-init="console.log('Day template data:', day)"
+			    >
+				<span class="day-number" x-text="day.day"></span>
+				<div x-show="day.bookings.length > 0" class="booking-indicators">
+				    <template x-for="booking in day.bookings" x-bind:key="booking.booking_id">
+					<div class="booking-dot"
+					    x-bind:class="[
+					    booking.booking_type.booking_type.toLowerCase().replace('_','-'),
+					    booking.status.status.toLowerCase()
+					    ]"
+					    x-bind:title="`${booking.booking_type.booking_type.replace('_', ' ' )} - ${booking.status.status}`"
+					></div>
+				    </template>
+				</div>
 			    </div>
-			</div>
-		    </template>
+			</template>
+		    </div>
 		</div>
 	    </div>
 	    <div x-show="selectedDate && !isLoading" class="booking-details">

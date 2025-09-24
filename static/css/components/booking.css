@@ -1,0 +1,78 @@
+.booking-container {
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+}
+
+.booking-container h2 {
+    background: linear-gradient(135deg, #10367A 0%, #6089CF 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+form {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600rem;
+    color: #333;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border:2px solid #d0d5db;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    background: white;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #10367A;
+}
+
+.form-group input:invalid {
+    border-color: #f44336;
+}
+
+.form-group select {
+    cursor: pointer;
+    padding-right: 2.5rem;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+input[type="date"] {
+    position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}

@@ -10,7 +10,6 @@ import { UserHome } from "server/handlers/views/components/UserHome";
 import { NewBooking } from "server/handlers/views/components/NewBooking";
 import { MyBookings } from "server/handlers/views/components/MyBookings";
 import { TeamBookings } from "server/handlers/views/components/TeamBookings";
-import { ManageBookings } from "server/handlers/views/components/ManageBookings";
 import { AdminPortal } from "server/handlers/views/components/AdminPortal"; 
 
 
@@ -25,7 +24,6 @@ export class ScriptGetHandler extends RouteHandler {
         this.app.get("/fragment/dashboard/new-booking", this.newBooking.bind(this))
         this.app.get("/fragment/dashboard/my-bookings", this.myBookings.bind(this))
         this.app.get("/fragment/dashboard/team-bookings", this.teamBookings.bind(this))
-        this.app.get("/fragment/dashboard/manage-bookings", this.manageBookings.bind(this))
         this.app.get("/fragment/dashboard/admin", this.adminPortal.bind(this))
     }
 
@@ -70,15 +68,6 @@ export class ScriptGetHandler extends RouteHandler {
 	    return c.html(<TeamBookings userId={user.user_id}/>)
 	} catch (error) {
 	    return this.handleError(error,"Failed to load dashboard Team Bookings", c)
-	}
-    }
-
-    private async manageBookings(c:Context){
-	try {
-	    const user = await getUserData(c);
-	    return c.html(<ManageBookings userId={user.user_id}/>)
-	} catch (error) {
-	    return this.handleError(error,"Failed to load dashboard Manage Bookings", c)
 	}
     }
 

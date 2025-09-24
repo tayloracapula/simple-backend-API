@@ -1,9 +1,17 @@
 .calendar-container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     background: white;
     border-radius: 12px;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+.calendar {
+    flex: 0 0 auto;
+    width: 600px;
+    min-width: 600px;
 }
 
 .calendar-header {
@@ -42,6 +50,7 @@
 
 .calendar-grid {
     padding: 1rem;
+    aspect-ratio: 1;
 }
 
 .calendar-days-header {
@@ -66,7 +75,8 @@
     gap: 1px;
     border-radius: 8px;
     overflow: hidden;
-
+    aspect-ratio: 1;
+    min-height: 420px;
 }
 
 .calendar-day {
@@ -94,6 +104,12 @@
     color: #d2d4d6;
 }
 
+.calendar-day.today {
+    background: #10367A;
+    color: white;
+}
+
+
 .day-number {
     font-weight: 600;
     font-size:0.9rem;
@@ -112,6 +128,9 @@
     height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
+    background: #ccc;
+    margin: 1px;
+    border: 1px solid #999;
 }
 
 .booking-dot.annual-leave { background: #4caf50;}
@@ -119,19 +138,19 @@
 .booking-dot.unpaid-leave { background: #ff9800;}
 .booking-dot.voulenteer-days{ background: #9c27b0;}
 
-.booking-dot.approved { border: 2px solid #2e7d32;}
+.booking-dot.accepted{ border: 2px solid #2e7d32;}
 .booking-dot.pending { border: 2px solid #f57c00;}
-.booking-dot.rejected { border: 2px solid #c62828;}
+.booking-dot.refused{ border: 2px solid #c62828;}
 .booking-dot.cancelled {visibility: hidden;}
 
 .booking-details {
     padding: 1.5rem 2rem;
     border-top: 1px solid #182C50;
     background: linear-gradient(#e8e9ea,white);
-    max-height: 150px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .booking-details h3 {
@@ -175,4 +194,14 @@
     margin-bottom: 0.5rem;
 }
 
+.no-bookings {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 1rem;
+}
 
+
+@media (max-width: 768px) {
+    
+}

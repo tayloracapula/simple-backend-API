@@ -1,0 +1,93 @@
+.team-bookings-container {
+    min-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.team-bookings-header {
+    background: linear-gradient(135deg, #10367A 0%, #6089CF 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.booking-detail {
+    background: #CBDEFF;
+    border: 1px solid #d0d5db;
+    border-radius: 8px;
+    margin: 1rem 2rem;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    color: #333;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.booking-type{
+    font-size: 0.9rem;
+    text-transform: capitalize;
+}
+
+.booking-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-left: 1rem;
+}
+
+.approve-btn, .reject-btn {
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.approve-btn {
+    background: #10b981;
+    color: white;
+}
+
+.approve-btn:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.reject-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.reject-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.no-bookings {
+    text-align: center;
+    padding: 3rem;
+    margin: 1rem 2rem;
+    color: #6b7280;
+    font-size: 1.1rem;
+    background: #f8fafc;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+}
