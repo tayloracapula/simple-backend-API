@@ -18,6 +18,7 @@ import { DepartmentDeleteHandler } from "./RouteHandlers/Department/DepartmentDe
 import { BookingTypeController } from "server/controllers/BookingTypeController";
 import { BookingTypeDeleteHandler } from "./RouteHandlers/BookingType/BookingTypeDeleteHandler";
 import { BookingTypePostHandler } from "./RouteHandlers/BookingType/BookingTypePostHandler";
+import { BookingTypeGetHandler } from "./RouteHandlers/BookingType/BookingTypeGetHandler";
 import { requiredRole } from "server/ServerMiddleware/RequiredRole";
 
 export class AdminRoutes extends BaseRoute {
@@ -46,6 +47,7 @@ export class AdminRoutes extends BaseRoute {
            .register(DepartmentDeleteHandler,departmentController)
            .register(BookingTypeDeleteHandler,bookingTypeController)
            .register(BookingTypePostHandler,bookingTypeController)
+	   .register(BookingTypeGetHandler,bookingTypeController) 
            .registerAll();
 
         this.handle404(adminGroup);

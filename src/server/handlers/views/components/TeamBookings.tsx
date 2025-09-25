@@ -13,7 +13,7 @@ export function TeamBookings({userId}:ComponentProps){
 		    <div class="booking-info">
 			<div class="user-name" x-text="`${booking.user.firstname} ${booking.user.lastname}`"></div>
 			<div class="booking-type" x-text="booking.booking_type.booking_type.replace('_',' ')"></div>
-			<div class="date-range" x-text="`${booking.start_date} - ${booking.end_date}`"></div>
+			<div class="date-range" x-text="`${booking.start_date.split('-').reverse().join('/')} - ${booking.end_date.split('-').reverse().join('/')}`"></div>
 		    </div>
 		    <div class="booking-actions">
 			<button x-on:click="approveDenyBooking(booking.booking_id,true)" class="approve-btn">
@@ -25,7 +25,7 @@ export function TeamBookings({userId}:ComponentProps){
 		    </div>
 		</div>
 	    </template>
-	    <div x-show="booking.length === 0" class="no-bookings">
+	    <div x-show="bookings.length === 0" class="no-bookings">
 		No pending bookings
 	    </div>
 	</div>
