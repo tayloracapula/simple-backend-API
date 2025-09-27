@@ -4,13 +4,11 @@ import type { Hono, Context } from "hono";
 import { RouteHandler } from "../RouteHandler";
 import type { ViewScriptController } from "server/controllers/ViewScriptController";
 import { getUserData } from "server/helpers/JWTDecode"
-import { AdminHome } from "server/handlers/views/components/AdminHome";
-import { ManagerHome } from "server/handlers/views/components/ManagerHome";
-import { UserHome } from "server/handlers/views/components/UserHome";
 import { NewBooking } from "server/handlers/views/components/NewBooking";
 import { MyBookings } from "server/handlers/views/components/MyBookings";
 import { TeamBookings } from "server/handlers/views/components/TeamBookings";
 import { AdminPortal } from "server/handlers/views/components/AdminPortal"; 
+import { Home } from "server/handlers/views/components/Home.tsx"
 
 
 export class ScriptGetHandler extends RouteHandler {
@@ -31,13 +29,7 @@ export class ScriptGetHandler extends RouteHandler {
 	try {
 	    const user = await getUserData(c);
 	    
-	    if (user.role == 'Admin') {
-		return c.html(<AdminHome userId={user.user_id}/>);    	
-	    } else if (user.role == 'Manager') {
-		return c.html(<ManagerHome userId={user.user_id}/>);
-	    } else {
-		return c.html(<UserHome userId={user.user_id}/>)
-	    }
+		return c.html(<Home userId={user.user_id}/>);    	
 
 	} catch (error) {
 	    return this.handleError(error,"Failed to load dashboard home", c)

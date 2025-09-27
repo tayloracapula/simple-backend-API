@@ -91,3 +91,104 @@
     border: 2px dashed #d1d5db;
     border-radius: 8px;
 }
+
+@media (max-width: 1024px) {
+    .team-bookings-container {
+        min-width: auto;
+        max-width: 95%;
+    }
+    
+    .booking-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .booking-actions {
+        margin-left: 0;
+        align-self: stretch;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-bookings-container {
+        border-radius: 8px;
+    }
+    
+    .team-bookings-header {
+        padding: 1.25rem 1.5rem;
+        font-size: 1.3rem;
+    }
+    
+    .booking-detail {
+        margin: 0.75rem 1rem;
+        padding: 1.25rem;
+    }
+    
+    .user-name {
+        font-size: 1rem;
+    }
+    
+    .booking-type {
+        font-size: 0.85rem;
+    }
+    
+    .booking-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .approve-btn, .reject-btn {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .no-bookings {
+        margin: 0.75rem 1rem;
+        padding: 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-bookings-header {
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .booking-detail {
+        margin: 0.5rem;
+        padding: 1rem;
+        border-radius: 6px;
+    }
+    
+    .booking-info {
+        gap: 0.4rem;
+    }
+    
+    .user-name {
+        font-size: 0.95rem;
+    }
+    
+    .booking-type {
+        font-size: 0.8rem;
+    }
+    
+    .booking-actions {
+        gap: 0.4rem;
+    }
+    
+    .approve-btn, .reject-btn {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+        border-radius: 4px;
+    }
+    
+    .no-bookings {
+        margin: 0.5rem;
+        padding: 1.5rem;
+        font-size: 0.9rem;
+    }
+}

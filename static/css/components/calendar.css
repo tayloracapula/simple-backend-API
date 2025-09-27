@@ -202,6 +202,150 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    .calendar-container {
+        flex-direction: column;
+        max-width: 90%;
+    }
     
+    .calendar {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .calendar-grid {
+        aspect-ratio: auto;
+    }
+    
+    .calendar-days {
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-container {
+        margin: 1rem;
+        border-radius: 8px;
+    }
+    
+    .calendar-header {
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .calendar-header h2 {
+        font-size: 1.25rem;
+        flex: 1;
+        text-align: center;
+    }
+    
+    .nav-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .calendar-grid {
+        padding: 0.5rem;
+    }
+    
+    .day-header {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .calendar-day {
+        min-height: 60px;
+        padding: 0.25rem;
+    }
+    
+    .day-number {
+        font-size: 0.8rem;
+    }
+    
+    .booking-dot {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .booking-details {
+        padding: 1rem;
+    }
+    
+    .booking-details h3 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .booking-item {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-container {
+        margin: 0.5rem;
+    }
+    
+    .calendar-header {
+        padding: 0.75rem;
+    }
+    
+    .calendar-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .nav-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .calendar-grid {
+        padding: 0.25rem;
+    }
+    
+    .day-header {
+        padding: 0.25rem;
+        font-size: 0.7rem;
+    }
+    
+    .calendar-days {
+        gap: 0.5px;
+        min-height: 280px;
+    }
+    
+    .calendar-day {
+        min-height: 40px;
+        padding: 0.125rem;
+    }
+    
+    .day-number {
+        font-size: 0.7rem;
+        margin-bottom: 0.125rem;
+    }
+    
+    .booking-dot {
+        width: 4px;
+        height: 4px;
+        margin: 0.5px;
+    }
+    
+    .booking-details {
+        padding: 0.75rem;
+    }
+    
+    .booking-details h3 {
+        font-size: 0.95rem;
+    }
+    
+    .booking-item {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .booking-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
 }

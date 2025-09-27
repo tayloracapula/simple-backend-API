@@ -15,12 +15,21 @@ function adminPortalState() {
 	    email: ''
 	},
 	searchResults: [],
+	managers:[],
 
 	roles: [],
 	departments: [],
 	bookingTypes: [],
 
-	newUser: {},
+	newUser: {
+	    first_name: '',
+	    last_name: '',
+	    email: '',
+	    password: '',
+	    role: '',
+	    department: '',
+	    managerID: ''
+	},
 	newRole: {name: ''},
 	newDepartment:{name: ''},
 	newBookingType:{name: ''},
@@ -33,6 +42,9 @@ function adminPortalState() {
 	    switch(tab) {
 		case 'users':
 		    this.clearSearch();
+		    if (!this.managers.length) await this.fetchManagers();
+		    if (!this.departments.length) await this.fetcher('departments','departments');
+		    if (!this.roles.length) await this.fetcher('roles','roles');
 		    break;
 		case 'roles':
 		    if(!this.roles.length) await this.fetcher(tab,'roles');
@@ -56,6 +68,21 @@ function adminPortalState() {
 		console.error(`Error fetching ${apiTarget} :`, error);
 	    }finally {
 		this.isLoading = false;
+	    }
+	},
+	async fetchManagers() {
+	    try {
+		const params = new URLSearchParams({roleName: 'Manager'});
+	    	const response = await fetch(`/api/admin/search-users?${params}`);
+		const result = await response.json();
+		
+		if (result.success) {
+		    this.managers = result.data;
+		}else{
+		    console.error("failed to fetch managers");
+		}
+	    } catch (error) {
+		console.error("Error fetching managers", error);
 	    }
 	},
 	async deleter(apiTarget,fetchTarget,stateProperty,id){
@@ -189,7 +216,11 @@ function adminPortalState() {
 	    }
 	},
 	async editUser(user){
-	    this.editingUser = {...user};
+	    this.editingUser = {...user,
+		role: user.role?.role || '',
+		department: user.department.department || '',
+		manager: user.manager?.user_id || ''
+	    };
 	    this.showEditForm = true;
 	    this.showCreateForm = false;
 	},
@@ -224,7 +255,15 @@ function adminPortalState() {
 	},
 	cancelCreate() {
 	    this.showCreateForm = false;
-	    this.newUser = {};
+	    this.newUser = {
+	    first_name: '',
+	    last_name: '',
+	    email: '',
+	    password: '',
+	    role: '',
+	    department: '',
+	    managerID: ''
+	    };
 	    this.newRole = {name: ''};
 	    this.newDepartment = {name: ''};
 	    this.newBookingType = {name: ''};

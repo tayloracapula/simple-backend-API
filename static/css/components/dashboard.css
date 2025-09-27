@@ -4,3 +4,17 @@
     color: #666;
     font-style: italic;
 }
+
+@media (max-width: 768px) {
+    .loading-message {
+        padding: 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-message {
+        padding: 1rem;
+        font-size: 0.85rem;
+    }
+}

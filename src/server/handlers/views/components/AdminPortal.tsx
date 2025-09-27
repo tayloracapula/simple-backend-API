@@ -2,7 +2,7 @@ import type { ComponentProps } from "./tools"
 
 export function AdminPortal({userId}:ComponentProps){
     return(
-	<div x-data="adminPortalState()" x-init={`userId = ${Number(userId)}`} class="admin-portal-container">
+	<div x-data="adminPortalState()" x-init={`userId = ${Number(userId)}; switchTab('users')`} class="admin-portal-container">
 	    <div class="admin-header">
 		<h1>Admin Portal</h1>
 	    </div>
@@ -81,55 +81,123 @@ export function AdminPortal({userId}:ComponentProps){
                     </div>
                 </div>
 
-                <div x-show="showCreateForm" class="form-section">
-                    <h3>Create New User</h3>
-                    <form {...{"x-on:submit.prevent":"createUser()"}}>
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input x-model="newUser.firstname" type="text" required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input x-model="newUser.lastname" type="text" required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input x-model="newUser.email" type="email" required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input x-model="newUser.password" type="password" required/>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" x-on:click="cancelCreate()" class="cancel-btn">Cancel</button>
-                            <button type="submit" class="submit-btn">Create User</button>
-                        </div>
-                    </form>
+                <div x-show="showCreateForm && activeTab === 'users'" class="modal-overlay" x-on:click="cancelCreate()">
+		    <div class="modal-content" {...{"x-on:click.stop":""}}>
+		    <div class="modal-header">
+			<h3>Create New User</h3>
+			<button x-on:click="cancelCreate()" class="close-btn">✕</button>
+		    </div>
+		    <div class="modal-form">
+			<form {...{"x-on:submit.prevent":"createUser()"}}>
+			    <div class="form-group">
+				<label>First Name</label>
+				<input x-model="newUser.first_name" type="text" required/>
+			    </div>
+			    <div class="form-group">
+				<label>Last Name</label>
+				<input x-model="newUser.last_name" type="text" required/>
+			    </div>
+			    <div class="form-group">
+				<label>Email</label>
+				<input x-model="newUser.email" type="email" required/>
+			    </div>
+			    <div class="form-group">
+				<label>Password</label>
+				<input x-model="newUser.password" type="password" required/>
+			    </div>
+			    <div class = "form-group">
+				<label>Role</label>
+				<select x-model="newUser.role" required>
+				    <option value="">Select Role</option>
+				    <template x-for="role in roles" x-bind:key="role.id">
+					<option x-bind:value="role.role" x-text="role.role"></option>
+				    </template>
+				</select>
+			    </div>
+			    <div class = "form-group">
+				<label>Department</label>
+				<select x-model="newUser.department" required>
+				    <option value="">Select Department</option>
+				    <template x-for="department in departments" x-bind:key="department.id">
+					<option x-bind:value="department.department" x-text="department.department"></option>
+				    </template>
+				</select>
+			    </div>
+			    <div class="form-group">
+				<label>Manager</label>
+				<select x-model="newUser.managerID">
+				    <option value="">No Manager (Self-managed)</option>
+				    <template x-for="manager in managers" x-bind:key="manager.user_id">
+					<option x-bind:value="manager.user_id" x-text="`${manager.firstname} ${manager.lastname}`"></option>
+				    </template>
+				</select>
+			    </div>
+			    <div class="form-actions">
+				<button type="button" x-on:click="cancelCreate()" class="cancel-btn">Cancel</button>
+				<button type="submit" class="submit-btn">Create User</button>
+			    </div>
+			</form>
+		    </div>
+		    </div>
                 </div>
-		<div x-show="showEditForm" class="form-section">
-		    <h3>Edit User</h3>
-		    <form {...{"x-on:submit.prevent":"updateUser(editingUser.user_id)"}}>
-			<div class="form-group">
-                            <label>First Name</label>
-                            <input x-model="editingUser.firstname" type="text"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input x-model="editingUser.lastname" type="text"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input x-model="editingUser.email" type="email"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Password <small>(leave blank to keep current)</small></label>
-                            <input x-model="editingUser.password" type="password" placeholder="New password (optional)"/>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" x-on:click="cancelEdit()" class="cancel-btn">Cancel</button>
-                            <button type="submit" class="submit-btn">Update User</button>
-                        </div>
-		    </form>
+		<div x-show="showEditForm" class="modal-overlay" x-on:click="cancelEdit()">
+		    <div class="modal-content" {...{"x-on:click.stop":""}}>
+		    <div class="modal-header">
+			<h3>Edit User</h3>
+			<button x-on:click="cancelEdit()" class="close-btn">✕</button>
+		    </div>
+		    <div class="modal-form">
+			<form {...{"x-on:submit.prevent":"updateUser(editingUser.user_id)"}}>
+			    <div class="form-group">
+				<label>First Name</label>
+				<input x-model="editingUser.first_name" type="text"/>
+			    </div>
+			    <div class="form-group">
+				<label>Last Name</label>
+				<input x-model="editingUser.last_name" type="text"/>
+			    </div>
+			    <div class="form-group">
+				<label>Email</label>
+				<input x-model="editingUser.email" type="email"/>
+			    </div>
+			    <div class="form-group">
+				<label>Password <small>(leave blank to keep current)</small></label>
+				<input x-model="editingUser.password" type="password" placeholder="New password (optional)"/>
+			    </div>
+			    <div class="form-group">
+				<label>Role</label>
+				<select x-model="editingUser.role" required>
+				    <option value="">Select Role</option>
+				    <template x-for="role in roles" x-bind:key="role.id">
+					<option x-bind:value="role.role" x-text="role.role"></option>
+				    </template>
+				</select>
+			    </div>
+			    <div class="form-group">
+				<label>Department</label>
+				<select x-model="editingUser.department" required>
+				    <option value="">Select Department</option>
+				    <template x-for="dept in departments" x-bind:key="dept.id">
+					<option x-bind:value="dept.department" x-text="dept.department"></option>
+				    </template>
+				</select>
+			    </div>
+			    <div class="form-group">
+				<label>Manager <small>(optional)</small></label>
+				<select x-model="editingUser.managerID">
+				    <option value="">No Manager (Self-managed)</option>
+				    <template x-for="manager in managers" x-bind:key="manager.user_id">
+					<option x-bind:value="manager.user_id" x-text="`${manager.firstname} ${manager.lastname}`"></option>
+				    </template>
+				</select>
+			    </div>
+			    <div class="form-actions">
+				<button type="button" x-on:click="cancelEdit()" class="cancel-btn">Cancel</button>
+				<button type="submit" class="submit-btn">Update User</button>
+			    </div>
+			</form>
+		    </div>
+		    </div>
 		</div>
 		</div>
 		{/*Roles Tab*/}
@@ -159,18 +227,25 @@ export function AdminPortal({userId}:ComponentProps){
 			</template>
 		    </div>
 
-		    <div x-show="showCreateForm" class="form-section">
+		    <div x-show="showCreateForm && activeTab === 'roles'" class="modal-overlay" x-on:click="cancelCreate()">
+		    <div class="modal-content" {...{"x-on:click.stop":""}}>
+		    <div class="modal-header">
 			<h3>Create New Role</h3>
-			<form {...{"x-on:submit.prevent":"createRole()"}}>
-			    <div class="form-group">
-				<label>Role Name</label>
-				<input x-model="newRole.name" type="text" required/>
-			    </div>
-			    <div class="form-actions">
-				<button type="button" x-on:click="cancelCreate()" class="cancel-btn">Cancel</button>
-				<button type="submit" class="submit-btn">Create Role</button>
-			    </div>
-			</form>
+			<button x-on:click="cancelCreate()" class="close-btn">✕</button>
+		    </div>
+			<div class="modal-form">
+			    <form {...{"x-on:submit.prevent":"createRole()"}}>
+				<div class="form-group">
+				    <label>Role Name</label>
+				    <input x-model="newRole.name" type="text" required/>
+				</div>
+				<div class="form-actions">
+				    <button type="button" x-on:click="cancelCreate()" class="cancel-btn">Cancel</button>
+				    <button type="submit" class="submit-btn">Create Role</button>
+				</div>
+			    </form>
+			</div>
+			</div>
 		    </div>
 		</div>
 		{/*Departments Tab*/}
@@ -200,8 +275,13 @@ export function AdminPortal({userId}:ComponentProps){
 			</template>
 		    </div>
 
-		    <div x-show="showCreateForm" class="form-section">
+		    <div x-show="showCreateForm && activeTab === 'departments'" class="modal-overlay" x-on:click="cancelCreate()">
+		    <div class="modal-content" {...{"x-on:click.stop":""}}>
+		    <div class="modal-header">
 			<h3>Create New Department</h3>
+			<button x-on:click="cancelCreate()" class="close-btn">✕</button>
+		    </div>
+			<div class="modal-form">
 			<form {...{"x-on:submit.prevent":"createDepartment()"}}>
 			    <div class="form-group">
 				<label>Department Name</label>
@@ -212,6 +292,8 @@ export function AdminPortal({userId}:ComponentProps){
 				<button type="submit" class="submit-btn">Create Department</button>
 			    </div>
 			</form>
+			</div>
+		    </div>
 		    </div>
 		</div>
 		{/*Booking Types Tab*/}
@@ -233,7 +315,7 @@ export function AdminPortal({userId}:ComponentProps){
 			
 			<template x-for="booking_type in bookingTypes" x-bind:key="booking_type.id">
 			    <div class="table-row">
-				<span x-text="booking_type.booking_type.replace('_',' ')
+				<span x-text="booking_type.booking_type.replaceAll('_',' ')
 									"></span>
 				<div class="action-buttons">
 				    <button x-on:click="deleteBookingType(booking_type.id)" class="delete-btn">🗑️</button>
@@ -242,8 +324,13 @@ export function AdminPortal({userId}:ComponentProps){
 			</template>
 		    </div>
 
-		    <div x-show="showCreateForm" class="form-section">
+		    <div x-show="showCreateForm && activeTab === 'booking-types'" class="modal-overlay" x-on:click="cancelCreate()">
+		    <div class="modal-content" {...{"x-on:click.stop":""}}>
+		    <div class="modal-header">
 			<h3>Create Booking Type</h3>
+			<button x-on:click="cancelCreate()" class="close-btn">✕</button>
+		    </div>
+			<div class="modal-form">
 			<form {...{"x-on:submit.prevent":"createBookingType()"}}>
 			    <div class="form-group">
 				<label>Booking Type Name</label>
@@ -254,7 +341,9 @@ export function AdminPortal({userId}:ComponentProps){
 				<button type="submit" class="submit-btn">Create Booking Type</button>
 			    </div>
 			</form>
+			</div>
 		    </div>
+		</div>
 	    </div>
 	</div>
     </div>
