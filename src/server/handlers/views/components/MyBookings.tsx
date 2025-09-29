@@ -6,9 +6,9 @@ export function MyBookings({userId}:ComponentProps){
 	<div class="calendar-container">
 	    <div class="calendar">
 		<div class="calendar-header">
-		    <button x-on:click="previousMonth()" class="nav-btn">&lt;</button>
+		    <button x-on:click="previousMonth()" class="nav-btn">{"<"}</button>
 		    <h2 x-text="currentMonthYear"></h2>
-		    <button x-on:click="nextMonth()" class="nav-btn">&gt;</button>
+		    <button x-on:click="nextMonth()" class="nav-btn">{">"}</button>
 		</div>
 
 		<div x-show="isLoading" class="loading-message">
@@ -32,7 +32,6 @@ export function MyBookings({userId}:ComponentProps){
 				    'selected': day.isSelected
 				}"
 				x-on:click="selectDate(day)"
-				x-init="console.log('Day template data:', day)"
 			    >
 				<span class="day-number" x-text="day.day"></span>
 				<div x-show="day.bookings.length > 0" class="booking-indicators">

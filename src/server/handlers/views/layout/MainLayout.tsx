@@ -46,13 +46,6 @@ export function MainLayout({title,children,cssFiles,sidebar,showMobileMenu=true}
 		    </main>
 		</div>
 		<script src="/static/js/auth-utils.js"></script>
-		<script>
-		{`
-		    function toggleSidebar(){
-			document.querySelector('.sidebar').classList.toggle('active')
-		    }
-		`}
-		</script>
             </body>
         </html>
     );

@@ -17,8 +17,8 @@ export class ScriptPostHandler extends RouteHandler {
     private async toggleMenu(c:Context){
 	try {
 	    const result = await this.viewScriptController.toggleMenu();
-	    return c.html(result);
-		
+	    c.header('Content-Type', 'text/html');
+	    return c.body(result);	
 	} catch (error) {
 	    return this.handleError(error,"Failed to retrieve script",c)
 	}

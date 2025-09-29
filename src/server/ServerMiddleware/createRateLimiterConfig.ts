@@ -4,7 +4,7 @@ import type { ConfigType, GeneralConfigType } from "hono-rate-limiter";
 export function createRateLimiterConfig(): GeneralConfigType<ConfigType> {
     return {
         windowMs: 15 * 60 * 1000,
-        limit: 100,
+        limit: 1000,
         standardHeaders: "draft-6",
         keyGenerator: (c: Context) => {
             const jwtPayload = c.get("roleJWT" as any);

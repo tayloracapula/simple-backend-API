@@ -183,3 +183,8 @@ dist
 
 #ts build
 ./build
+/scripts/tests/cypress
+/cypress
+cypress.config.js
+
+
